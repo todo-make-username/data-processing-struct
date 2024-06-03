@@ -9,6 +9,12 @@
             "email": "5577434+todo-make-username@users.noreply.github.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "TodoMakeUsername\\DataProcessingStruct\\": "src/",
+            "TodoMakeUsername\\DataProcessingStructDemo\\": "demo/"
+        }
+    },
     "require": {
         "php": ">=8.2"
     },
@@ -22,6 +28,12 @@
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit tests --colors=always --stop-on-failure --display-notices --display-warnings --coverage-html tests/coverage --coverage-filter src",
         "view-coverage": "open tests/coverage/index.html",
         "beautify": "vendor/bin/phpcbf",
-        "stan": "vendor/bin/phpstan analyse -l 9 src"
+        "stan": "vendor/bin/phpstan analyse -l 9 src",
+        "run-all": [
+            "@beautify",
+            "@stan",
+            "@test"
+        ],
+        "start-demo": "php -S localhost:8000 demo/index.php"
     }
 }
