@@ -1,0 +1,29 @@
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>What is this library?</h3>
+		<p>The <code>Data Processing Struct</code> is meant to help us eliminate a lot of the repetitiveness, deep nested code, and potential bugs that come with data processing and validation. As an extra bonus, it makes code extremely self documenting. You'll see what I mean with some examples in the other tabs.</p>
+		<p>It does all of that by moving all the logic into PHP attributes on an object's properties. Other than the provided helper traits, the struct class contains no actual logic, yet can process and validate an entire submitted form by itself. All thanks to attributes.</p>
+		<p>The perfect example is form processing. Instead of having scattered logic to process your forms. You can now make a single struct (or multiple structs) per form. The data is then processed and validated and assigned to the struct's public properties for you based on the attributes you give each property. All the logic is on the surface, and easy to see, no more 15 levels of methods to dig through to find out if you are trimming a string or not.</p>
+		<p>The best part is, all of this is fully extendable. I provide some attributes, but you can create your own custom ones and assign them to properties just like the ones I provide. As long as they extend the base classes, this library will pick them up and call them.</p>
+		<h3>Demo Description:</h3>
+		<p>Each tab contains a short description with usage examples and interactive demos of various attributes that are available to use from this library.</p>
+		<h3>Things to note:</h3>
+		<p>When using these attributes, it is highly recommended to use named arguments like in the examples. They are designed that way for our sanity. The exception being some of the tailor attributes which are wrappers for common PHP functions.</p>
+		<p>This demo has file uploads, the files are not actually uploaded anywhere. PHP should delete them from the tmp dir after the script finishes running.</p>
+		<p><small>Fun note: I use this demo for my practical testing lol</small></p>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Basic Struct Class Setup:</h3>
+		<pre class="example">
+#[ClassAttribute1]
+class Obj extends Struct
+{
+	#[Attribute1]
+	#[Attribute2]
+	public string $prop;
+}
+		</pre>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Description:</h3>
+		<p>Here is an example of how the <code>Hydrator Trait</code> converts data and hydrates a Struct.</p>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Usage:</h3>
+		<pre class="example">
+// Hydrate an object with $_POST data
+$Obj->hydrate($_POST);
+		</pre>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Examples:</h3>
+		<legend>Hydrate using post values</legend>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1 align-top">
+		<div class="pure-control-group">
+			<label>
+				Required:<br>
+				<small>#[Required]</small>
+			</label>
+			<input id="required" type="checkbox" class="form-control" name="required" checked>
+		</div>
+		<div class="pure-control-group">
+			<label>
+				Single File Upload:<br>
+				<small>#[FileUpload]</small>
+			</label>
+			<input id="file_single" type="file" class="form-control" name="file_single">
+		</div>
+		<div class="pure-control-group">
+			<label>Array:<br><small>#[JsonDecode(true)]</small></label>
+			<textarea type="text" class="form-control" name="val_array" value=""><?= json_encode([ 'A' => [ 'AA' => '11' ], 'B' => 2 ]) ?></textarea>
+		</div>
+	</div>
+</div>
