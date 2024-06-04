@@ -1,7 +1,7 @@
 <div class="pure-g">
 	<div class="pure-u-1">
 		<h3>Description:</h3>
-		<p>Here are some examples of how a Struct's tailor method is used to alter an object's public properties using various attributes.</p>
+		<p>Here are some examples showing how a Struct's tailor method is used to alter an object's public properties using various attributes.</p>
 		<p>Tailoring attributes are processed in order from top to bottom.</p>
 		<p>Side Note: One of the more useful combinations is using <code>Trim</code> followed up by <code>UseDefaultOnEmpty</code>.</p>
 	</div>
@@ -22,54 +22,74 @@
 	<div class="pure-u-1 align-top">
 		<div class="pure-control-group">
 			<label>
-				Trim:<br>
-				<small>#[Trim]</small>
+				Trim:
 			</label>
 			<textarea class="form-control" name="trim">
 
 				123
 			
 			</textarea>
+			<span class="pure-form-message-inline">
+				<small>
+					#[Trim]
+				</small>
+			</span>
 		</div>
 
 		<div class="pure-control-group">
 			<label>
-				Use Default On Empty:<br>
-				<small>#[UseDefaultOnEmpty]<br>Default: 'test'</small>
+				Use Default On Empty:
 			</label>
 			<input type="text" class="form-control" name="default_on_empty" value="">
+			<span class="pure-form-message-inline">
+				<small>
+					#[UseDefaultOnEmpty]<br>
+					Default: 'test'
+				</small>
+			</span>
 		</div>
 
 		<div class="pure-control-group">
 			<label>
-				Str_Replace:<br>
-				<small>#[StrReplace('World', 'You')]</small>
+				Str_Replace:
 			</label>
 			<input type="text" class="form-control" name="str_replace" value="Hello World!">
+			<span class="pure-form-message-inline">
+				<small>
+					#[StrReplace('World', 'You')]
+				</small>
+			</span>
 		</div>
 
 		<div class="pure-control-group">
 			<label>
-				Useful Mix:<br>
+				Useful Mix:
+			</label>
+			<input type="text" class="form-control" name="useful_mix" value="    ">
+			<span class="pure-form-message-inline">
 				<small>
 					Field has spaces<br>
 					#[Trim]<br>
 					#[UseDefaultOnEmpty]<br>
 					Default: 'I was empty'
 				</small>
-			</label>
-			<input type="text" class="form-control" name="useful_mix" value="    ">
+			</span>
 		</div>
 
 		<div class="pure-control-group">
 			<label>
-				Mix and Match:<br>
-				<small>
-					#[StrReplace(<br>[ 'H', 'W' ],<br>[ 'Hello', 'World' ]<br>)]<br>
-					#[Trim]
-				</small>
+				Mix and Match:
 			</label>
 			<input type="text" class="form-control" name="custom_mix" value="   H W!">
+			<span class="pure-form-message-inline">
+				<small>
+					#[StrReplace(<br>
+					[ 'H', 'W' ],<br>
+					[ 'Hello', 'World' ]<br>
+					)]<br>
+					#[Trim]
+				</small>
+			</span>
 		</div>
 	</div>
 </div>

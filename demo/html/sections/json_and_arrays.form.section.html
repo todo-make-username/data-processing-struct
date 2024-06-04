@@ -1,0 +1,41 @@
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Description:</h3>
+		<p>Arrays can be created from JSON strings using the <code>JsonDecode</code> hydration attribute.</p>
+		<p>The <code>JsonDecode</code> hydration attribute takes the same parameters as PHP's json_decode.</p>
+		<p>An empty value will filled with an empty array.</p>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Examples:</h3>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1 align-top">
+		<div class="pure-control-group">
+			<label>
+				Array:
+			</label>
+			<textarea type="text" class="form-control" name="val_array" value=""></textarea>
+			<span class="pure-form-message-inline">
+				<small>
+					#[JsonDecode(true)]
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-g">
+			<div class="pure-u-1">
+				<legend>Input Testing Examples:</legend>
+			</div>
+		</div>
+
+		<div class="pure-g">
+			<div class="pure-u-1">
+				<pre class="example"><?= json_encode([ 'A' => '1', 'B' => 2 ]) ?></pre>
+				<pre class="example"><?= json_encode([ 'A' => [ 'AA' => '11' ], 'B' => 2 ]) ?></pre>
+			</div>
+		</div>
+	</div>
+</div>

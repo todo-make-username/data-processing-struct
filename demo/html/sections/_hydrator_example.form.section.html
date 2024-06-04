@@ -23,21 +23,36 @@
 	<div class="pure-u-1 align-top">
 		<div class="pure-control-group">
 			<label>
-				Required:<br>
-				<small>#[Required]</small>
+				Required:
 			</label>
 			<input id="required" type="checkbox" class="form-control" name="required" checked>
+			<span class="pure-form-message-inline">
+				<small>
+					#[Required]
+				</small>
+			</span>
 		</div>
 		<div class="pure-control-group">
 			<label>
-				Single File Upload:<br>
-				<small>#[FileUpload]</small>
+				Single File Upload:
 			</label>
 			<input id="file_single" type="file" class="form-control" name="file_single">
+			<span class="pure-form-message-inline">
+				<small>
+					#[FileUpload]
+				</small>
+			</span>
 		</div>
 		<div class="pure-control-group">
-			<label>Array:<br><small>#[JsonDecode(true)]</small></label>
+			<label>
+				Array:
+			</label>
 			<textarea type="text" class="form-control" name="val_array" value=""><?= json_encode([ 'A' => [ 'AA' => '11' ], 'B' => 2 ]) ?></textarea>
+			<span class="pure-form-message-inline">
+				<small>
+					#[JsonDecode(true)]
+				</small>
+			</span>
 		</div>
 	</div>
 </div>
