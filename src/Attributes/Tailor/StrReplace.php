@@ -29,7 +29,7 @@ class StrReplace extends AbstractTailorAttribute
 	 */
 	public function process(mixed $value): mixed
 	{
-		if (!is_string($value) && !is_array($value))
+		if (is_string($value) === false && is_array($value) === false)
 		{
 			return $value;
 		}

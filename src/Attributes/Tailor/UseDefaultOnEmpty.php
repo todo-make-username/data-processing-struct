@@ -20,12 +20,12 @@ class UseDefaultOnEmpty extends AbstractTailorAttribute
 		$property_name = $this->Property->name;
 		$has_default   = $this->Property->hasDefaultValue();
 
-		if (!$has_default)
+		if ($has_default === false)
 		{
 			throw new TailorException('The property: "'.$property_name.'" must have a default value for the DefaultOnEmpty attribute.');
 		}
 
-		if (empty($value))
+		if (empty($value) === true)
 		{
 			$value = $this->Property->getDefaultValue();
 		}

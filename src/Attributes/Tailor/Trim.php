@@ -26,12 +26,12 @@ class Trim extends AbstractTailorAttribute
 	 */
 	public function process(mixed $value): mixed
 	{
-		if (!is_string($value))
+		if (is_string($value) === false)
 		{
 			return $value;
 		}
 
-		if (is_null($this->characters))
+		if (is_null($this->characters) === true)
 		{
 			$value = trim($value);
 		}
