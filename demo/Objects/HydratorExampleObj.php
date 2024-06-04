@@ -7,7 +7,7 @@ use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\JsonDecode;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Required;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
-class HydrateHelperObj extends Struct implements ObjInterface
+class HydratorExampleObj extends Struct implements ObjInterface
 {
 	#[Required]
 	public $required;
