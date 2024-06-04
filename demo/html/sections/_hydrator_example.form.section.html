@@ -1,16 +1,16 @@
 <div class="pure-g">
 	<div class="pure-u-1">
 		<h3>Description:</h3>
-		<p>Here is an example of how the <code>Hydrator Trait</code> converts data and hydrates a Struct.</p>
+		<p>Hydration happens when an array of data is converted and assigned into an object's public properties. The brings up the question, what if the data needs to be pre-processed before being assigned to the property? That is where the hydration attributes come into play.</p>
+		<p>Hydration attributes run pre-processing on the value before it is assigned to the property. Either by transforming the value, or running pre-validation checks.</p>
+		<p>Important Note: Data is automatically converted between certain types. This can be turned off if needed. Please reference the docs for more info.</p>
 	</div>
 </div>
 <div class="pure-g">
 	<div class="pure-u-1">
 		<h3>Usage:</h3>
-		<pre class="example">
-// Hydrate an object's public properties with $_POST data
-$Obj->hydrate($_POST);
-		</pre>
+		<p>Hydrate an object's public properties with $_POST data:</p>
+		<pre class="example">$Obj->hydrate($_POST);</pre>
 	</div>
 </div>
 <div class="pure-g">
