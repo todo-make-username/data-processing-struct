@@ -1,0 +1,78 @@
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Description:</h3>
+		<p>Here are some examples showing how a Struct's validate method is used to validate an object's public properties using various attributes.</p>
+		<p>Validation attributes are processed in order from top to bottom.</p>
+		<p>Custom messages for each validation attribute can be used instead of the default ones by including a ValidatorFailureMessage.</p>
+		<p>Helpful tip: One of the more useful combinations is using <code>Trim</code> followed up by <code>NotEmpty</code>.</p>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Usage:</h3>
+		<pre class="example">
+$Response = $Obj->validate();
+echo $Response->success ? 'Success' : 'Fail';
+// All failure messages are contained in $Response->messages.
+		</pre>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Examples:</h3>
+		<legend></legend>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1 align-top">
+		<div class="pure-control-group">
+			<label>
+				Not Empty:
+			</label>
+			<input type="text" class="form-control" name="not_empty" value="Delete the text to fail">
+			<span class="pure-form-message-inline">
+				<small>
+					#[NotEmpty]
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Trimmed Not Empty:
+			</label>
+			<input type="text" class="form-control" name="trimmed_not_empty" value="   Delete the text to fail   ">
+			<span class="pure-form-message-inline">
+				<small>
+					#[Trim]<br>
+					#[NotEmpty]
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Not Empty Custom Message:
+			</label>
+			<input type="text" class="form-control" name="custom_message" value="Delete me to see custom message">
+			<span class="pure-form-message-inline">
+				<small>
+					#[NotEmpty]<br>
+					#[ValidatorFailureMessage(NotEmpty::class, 'This is my custom error message!')]
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Regex Match:
+			</label>
+			<input type="text" class="form-control" name="pattern" value="123abc">
+			<span class="pure-form-message-inline">
+				<small>
+					#[RegexMatch(pattern: '/^\d+[A-Za-z]+$/')]
+				</small>
+			</span>
+		</div>
+	</div>
+</div>
