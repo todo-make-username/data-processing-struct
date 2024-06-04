@@ -4,7 +4,7 @@ namespace TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator;
 
 use Attribute;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Abstracts\AbstractHydratorAttribute;
-use TodoMakeUsername\DataProcessingStruct\Hydrator\HydrationException;
+use TodoMakeUsername\DataProcessingStruct\Hydrator\Exceptions\HydrationException;
 
 /**
  * The hydration data array must have this property name set as a key.

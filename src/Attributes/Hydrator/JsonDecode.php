@@ -4,7 +4,7 @@ namespace TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator;
 
 use Attribute;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Abstracts\AbstractHydratorAttribute;
-use TodoMakeUsername\DataProcessingStruct\Hydrator\HydrationException;
+use TodoMakeUsername\DataProcessingStruct\Hydrator\Exceptions\HydrationException;
 
 /**
  * When a valid json string is passed in, turn it into an array.

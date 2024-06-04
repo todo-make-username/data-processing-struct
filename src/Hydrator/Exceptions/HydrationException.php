@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace TodoMakeUsername\DataProcessingStruct\Hydrator;
+namespace TodoMakeUsername\DataProcessingStruct\Hydrator\Exceptions;
 
 use Exception;
 
