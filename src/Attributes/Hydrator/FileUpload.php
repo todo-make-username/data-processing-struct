@@ -17,9 +17,9 @@ class FileUpload extends AbstractHydratorAttribute
 	/**
 	 * The File Upload Constructor
 	 *
-	 * @param boolean $formatted_uploads This will format the multi-upload array into a cleaner array to work with. No effect on single files.
+	 * @param boolean $transpose This will format the multi-upload array into a cleaner array format to work with. No effect on single files.
 	 */
-	public function __construct(protected bool $formatted_uploads=false)
+	public function __construct(protected bool $transpose=false)
 	{}
 
 	/**
@@ -31,7 +31,7 @@ class FileUpload extends AbstractHydratorAttribute
 
 		$value = FilesHelper::getRawFileData($property_name);
 
-		if ($this->formatted_uploads)
+		if ($this->transpose === true)
 		{
 			$value = FilesHelper::formatMultiFileData($value);
 		}

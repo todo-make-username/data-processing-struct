@@ -38,12 +38,12 @@
 		</div>
 		<div class="pure-control-group">
 			<label>
-				File Multiple:
+				File Multiple, but formatted in a sane way:
 			</label>
-			<input id="file_multiple_formatted" type="file" class="form-control" name="upload_multiple_formatted[]" multiple>
+			<input id="file_multiple_transposed" type="file" class="form-control" name="upload_multiple_transposed[]" multiple>
 			<span class="pure-form-message-inline">
 				<small>
-					#[FileUpload(formatted_uploads: true)]
+					#[FileUpload(transpose: true)]
 				</small>
 			</span>
 		</div>

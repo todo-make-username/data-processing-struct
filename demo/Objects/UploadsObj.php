@@ -13,8 +13,8 @@ class UploadsObj extends Struct implements ObjInterface
 	#[FileUpload]
 	public array $upload_multiple;
 
-	#[FileUpload(formatted_uploads: true)]
-	public array $upload_multiple_formatted;
+	#[FileUpload(transpose: true)]
+	public array $upload_multiple_transposed;
 
 	/**
 	 * {@inheritDoc}
@@ -22,9 +22,9 @@ class UploadsObj extends Struct implements ObjInterface
 	public function toArray(): array
 	{
 		return [
-			'single'          => $this->upload_single,
-			'multi'           => $this->upload_multiple,
-			'multi formatted' => $this->upload_multiple_formatted,
+			'single'           => $this->upload_single,
+			'multi'            => $this->upload_multiple,
+			'multi transposed' => $this->upload_multiple_transposed,
 		];
 	}
 }
