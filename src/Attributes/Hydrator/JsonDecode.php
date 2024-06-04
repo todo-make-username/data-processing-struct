@@ -14,7 +14,6 @@ use TodoMakeUsername\DataProcessingStruct\Hydrator\Exceptions\HydrationException
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class JsonDecode extends AbstractHydratorAttribute
 {
-
 	/**
 	 * Decode a json string.
 	 *

@@ -13,7 +13,7 @@ class PropertyReflector
 	private ReflectionProperty $PropertyReflector;
 
 	/**
-	 * The constructor
+	 * The Class Constructor
 	 *
 	 * @param ReflectionProperty $Property The reflection of the property.
 	 */

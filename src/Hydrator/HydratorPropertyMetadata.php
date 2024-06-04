@@ -39,7 +39,7 @@ class HydratorPropertyMetadata
 
 
 	/**
-	 * The constructor
+	 * The Class Constructor
 	 *
 	 * @param ReflectionProperty $Property           The value to assign to the Property readonly property.
 	 * @param boolean            $value_exists       The value to assign to the value_exists readonly property.

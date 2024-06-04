@@ -16,7 +16,7 @@ class ObjectReflector
 	private ReflectionClass $ObjectReflector;
 
 	/**
-	 * The constructor
+	 * The Class Constructor
 	 *
 	 * @template T of object
 	 * @phan-param ReflectionClass<T> $Object

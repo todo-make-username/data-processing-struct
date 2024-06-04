@@ -3,10 +3,12 @@
 namespace TodoMakeUsername\DataProcessingStruct;
 
 use TodoMakeUsername\DataProcessingStruct\Hydrator\Traits\HydratorTrait;
+use TodoMakeUsername\DataProcessingStruct\Tailor\Traits\TailorTrait;
 
 abstract class Struct
 {
 	use HydratorTrait;
+	use TailorTrait;
 
 	/**
 	 * Constructor for the struct, optionally can take data to load immediately.

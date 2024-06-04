@@ -13,6 +13,7 @@ if (is_null($Obj) === false)
 {
 	try {
 		$Obj->hydrate($_POST);
+		$Obj->tailor();
 		$serialized_obj = $Obj->toArray();
 	} catch (\Throwable $e) {
 		$message = $e->getMessage();
