@@ -33,7 +33,7 @@ class FileUpload extends AbstractHydratorAttribute
 
 		if ($this->transpose === true)
 		{
-			$value = FilesHelper::formatMultiFileData($value);
+			$value = FilesHelper::transposeMultiFileData($value);
 		}
 
 		return $value;

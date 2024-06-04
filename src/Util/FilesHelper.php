@@ -50,7 +50,7 @@ class FilesHelper
 	 * @param array<mixed,mixed|array<string|integer,mixed>> $files The field array in the file array to format.
 	 * @return array<integer,array<string,mixed>>
 	 */
-	public static function formatMultiFileData(array $files): array
+	public static function transposeMultiFileData(array $files): array
 	{
 		// Return if formatted already
 		if (is_array($files) && (empty($files) || isset($files[0])))
@@ -66,7 +66,7 @@ class FilesHelper
 
 		$file_count       = count($files['error']);
 		$file_keys        = array_keys($files);
-		$formatted_array  = [];
+		$transposed_array = [];
 		$new_file_counter = 0;
 
 		for ($i = 0; $i < $file_count; $i++)
@@ -76,16 +76,16 @@ class FilesHelper
 				continue;
 			}
 
-			$formatted_array[$new_file_counter] = [];
+			$transposed_array[$new_file_counter] = [];
 
 			foreach ($file_keys as $key)
 			{
-				$formatted_array[$new_file_counter][$key] = $files[$key][$i];
+				$transposed_array[$new_file_counter][$key] = $files[$key][$i];
 			}
 
 			$new_file_counter++;
 		}
 
-		return $formatted_array;
+		return $transposed_array;
 	}
 }
