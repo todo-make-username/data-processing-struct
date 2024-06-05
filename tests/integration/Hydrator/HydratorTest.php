@@ -62,4 +62,21 @@ class HydratorTest extends TestCase
 		$this->assertSame($hydrate_data['field1'], $Obj->field1);
 		$this->assertSame($hydrate_data['field2'], $Obj->field2);
 	}
+
+	public function testBasicHydrationViaConstructor(): void
+	{
+		$hydrate_data = [
+			'field1' => 'test1',
+			'field2' => 2,
+		];
+
+		$Obj = new class($hydrate_data) extends Struct
+		{
+			public $field1;
+			public $field2;
+		};
+
+		$this->assertSame($hydrate_data['field1'], $Obj->field1);
+		$this->assertSame($hydrate_data['field2'], $Obj->field2);
+	}
 }
