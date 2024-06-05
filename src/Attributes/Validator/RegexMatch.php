@@ -50,7 +50,7 @@ class RegexMatch extends AbstractValidatorAttribute
 			throw new ValidatorException("Invalid pattern used to validate '".$this->Property->name."': '".$this->pattern."'");
 		}
 
-		$value        = strval($value);
+		$value        = (string) $value;
 		$match_result = preg_match($this->pattern, $value);
 
 		return ($match_result === 1);

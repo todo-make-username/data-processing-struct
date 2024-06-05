@@ -30,7 +30,9 @@ class TypeConverter
 	/**
 	 * Convert a value to one that matches the Reflection Type(s).
 	 *
-	 * Union type conversions will try each in order until one is successful. If they all fail, an error is thrown.
+	 * **UNEXPECTED PHP BEHAVIOR WARNING:** When using union types, the order returned by ReflectionUnionType::getTypes() is not the same order as declared in the code. PHP has a weighted order it returns each time. Check the PHP docs for more info.
+	 *
+	 * Union type conversions will try each type until one is successful. If they all fail, an error is thrown.
 	 *
 	 * Intersection Types and objects are not supported, the value is simply returned as is. Use a hydration attribute for those.
 	 *
@@ -44,7 +46,7 @@ class TypeConverter
 	{
 		if (
 			$ReflectionType === null
-			|| $ReflectionType instanceof ReflectionIntersectionType
+			|| ($ReflectionType instanceof ReflectionIntersectionType)
 			|| ($ReflectionType->allowsNull() && $value === null)
 		)
 		{
@@ -69,7 +71,7 @@ class TypeConverter
 
 		if ($converted === false)
 		{
-			throw new ConversionException('Failed to covert '.gettype($value).' to '.join('|', $possible_types));
+			throw new ConversionException('Failed to convert '.gettype($value).' to '.join('|', $possible_types));
 		}
 
 		return $value;
@@ -127,7 +129,7 @@ class TypeConverter
 		$methods = [];
 		foreach ($types as $type) {
 			$type = strtolower($type);
-			if (array_key_exists($type, self::$type_method_map))
+			if (array_key_exists($type, self::$type_method_map) === true)
 			{
 				$methods[] = self::$type_method_map[$type];
 			}
@@ -156,15 +158,8 @@ class TypeConverter
 		}
 
 		// For everything else.
-		if (is_int($value) || is_null($value) || is_float($value) || is_string($value)) {
-			try
-			{
-				$new_value = strval($value);
-			}
-			catch (\Throwable $th)
-			{
-				throw new ConversionException('Failed to convert '.gettype($value).' to string.');
-			}
+		if (is_scalar($value) === true || is_null($value) === true) {
+			$new_value = (string) $value;
 		} else {
 			throw new ConversionException('Cannot convert '.gettype($value).' to string.');
 		}
@@ -208,7 +203,7 @@ class TypeConverter
 	{
 		$new_value = filter_var($value, FILTER_VALIDATE_FLOAT, (FILTER_FLAG_ALLOW_THOUSAND | FILTER_NULL_ON_FAILURE));
 
-		if (is_null($new_value))
+		if (is_null($new_value) === true)
 		{
 			throw new ConversionException('Failed to convert '.gettype($value).' to float');
 		}
@@ -230,7 +225,7 @@ class TypeConverter
 		// This also checks for on/off, yes/no, "true"/"false", 1/0
 		$new_value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
-		if (is_null($new_value))
+		if (is_null($new_value) === true)
 		{
 			throw new ConversionException('Failed to convert '.gettype($value).' to bool');
 		}
