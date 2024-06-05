@@ -52,6 +52,7 @@ class ValidatorHelper
 		$property_name  = $Property->name;
 		$is_initialized = $Property->isInitialized($Object);
 		$value          = ($is_initialized) ? $Object->{$property_name} : $Property->getDefaultValue();
+		$Response       = null;
 
 		$Metadata = new ValidatorPropertyMetadata(
 			$Property,
@@ -60,12 +61,12 @@ class ValidatorHelper
 
 		// We don't recursively call attributes on attributes from this project to avoid an infinite loop.
 		// There shouldn't be any attributes on attribute properties, but just in case.
-		if (($Object instanceof DataProcessingAttributeInterface) === true)
+		if (($Object instanceof DataProcessingAttributeInterface) === false)
 		{
-			return null;
+			$Response = $this->processValidatorAttributes($Property, $value, $Metadata);
 		}
 
-		return $this->processValidatorAttributes($Property, $value, $Metadata);
+		return $Response;
 	}
 
 	/**

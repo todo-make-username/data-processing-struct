@@ -4,7 +4,7 @@ namespace TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Settings;
 
 use Attribute;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Abstracts\AbstractValidatorAttribute;
-use TodoMakeUsername\DataProcessingStruct\Validator\ValidatorException;
+use TodoMakeUsername\DataProcessingStruct\Validator\Exceptions\ValidatorException;
 
 /**
  * This contains the validation message when a property fails validation with the specific validation attribute.
@@ -29,7 +29,7 @@ class ValidatorFailureMessage
 	{
 		if (is_subclass_of($attribute_class, AbstractValidatorAttribute::class) === false)
 		{
-			throw new ValidatorException("'".$attribute_class."' must extend the AbstractValidatorAttribute class to be used with ValidatorMessage");
+			throw new ValidatorException("'".$attribute_class."' must extend the AbstractValidatorAttribute class to be used with ValidatorFailureMessage");
 		}
 	}
 }

@@ -4,7 +4,7 @@ namespace TodoMakeUsername\DataProcessingStruct\Attributes\Validator;
 
 use Attribute;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Abstracts\AbstractValidatorAttribute;
-use TodoMakeUsername\DataProcessingStruct\Validator\ValidatorException;
+use TodoMakeUsername\DataProcessingStruct\Validator\Exceptions\ValidatorException;
 
 /**
  * The value in the attribute must not be empty.
