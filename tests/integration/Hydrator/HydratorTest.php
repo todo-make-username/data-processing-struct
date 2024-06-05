@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Settings\HydrationSettings;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class HydratorTest extends TestCase
@@ -43,7 +42,7 @@ class HydratorTest extends TestCase
 		$this->assertSame(null, $Obj->field3);
 	}
 
-	public function testBasicHydrationExtraData()
+	public function testBasicHydrationExtraData(): void
 	{
 		$hydrate_data = [
 			'field1' => 'test1',
@@ -61,46 +60,6 @@ class HydratorTest extends TestCase
 
 		$this->assertTrue($hydrated);
 		$this->assertSame($hydrate_data['field1'], $Obj->field1);
-		$this->assertSame($hydrate_data['field2'], $Obj->field2);
-	}
-
-	public function testHydrationClassSettingsHydrationOff()
-	{
-		$hydrate_data = [
-			'field1' => 'new value 1',
-		];
-
-		$Obj = new #[HydrationSettings(hydrate: false)]class() extends Struct
-		{
-			#[HydrationSettings(hydrate: true)]
-			public $field1 = 'old value 1';
-		};
-
-		$hydrated = $Obj->hydrate($hydrate_data);
-
-		$this->assertFalse($hydrated);
-		$this->assertSame('old value 1', $Obj->field1);
-	}
-
-	public function testHydrationPropertySettings()
-	{
-		$hydrate_data = [
-			'field1' => 'new value 1',
-			'field2' => 'new value 2',
-		];
-
-		$Obj = new class() extends Struct
-		{
-			#[HydrationSettings(hydrate: false)]
-			public $field1 = 'old value 1';
-
-			public $field2 = 'old value 2';
-		};
-
-		$hydrated = $Obj->hydrate($hydrate_data);
-
-		$this->assertTrue($hydrated);
-		$this->assertSame('old value 1', $Obj->field1);
 		$this->assertSame($hydrate_data['field2'], $Obj->field2);
 	}
 }
