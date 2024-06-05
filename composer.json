@@ -32,7 +32,7 @@
         "run-all": [
             "@beautify",
             "@stan",
-            "@test"
+            "@coverage"
         ],
         "start-demo": "php -S localhost:8000 demo/index.php"
     }

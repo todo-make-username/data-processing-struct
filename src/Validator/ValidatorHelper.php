@@ -7,7 +7,7 @@ use ReflectionClass;
 use ReflectionProperty;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Shared\DataProcessingAttributeInterface;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Abstracts\AbstractValidatorAttribute;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\ValidatorFailureMessage;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Settings\ValidatorFailureMessage;
 use TodoMakeUsername\DataProcessingStruct\Reflector\ObjectReflector;
 
 class ValidatorHelper

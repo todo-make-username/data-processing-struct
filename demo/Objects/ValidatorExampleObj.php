@@ -5,7 +5,7 @@ namespace TodoMakeUsername\DataProcessingStructDemo\Objects;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Trim;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\NotEmpty;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\RegexMatch;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\ValidatorFailureMessage;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Settings\ValidatorFailureMessage;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class ValidatorExampleObj extends Struct implements ObjInterface

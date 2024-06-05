@@ -47,10 +47,7 @@ class HydrationHelper
 
 			$Metadata = $this->getPropertyMetadata($Property, $value_exists, $value, $PropertySettings);
 
-			if ($this->hydrateObjectProperty($Object, $Property, $value, $Metadata) === false)
-			{
-				return false;
-			}
+			$this->hydrateObjectProperty($Object, $Property, $value, $Metadata);
 		}
 
 		return true;
@@ -59,18 +56,20 @@ class HydrationHelper
 	/**
 	 * Hydrate an object's property.
 	 *
+	 * Exceptions will be thrown if something does not save correctly.
+	 *
 	 * @param object                   $Object           The object with the property to hydrate.
 	 * @param ReflectionProperty       $Property         The property Reflection object.
 	 * @param mixed                    $value            The value to hydrate the property with.
 	 * @param HydratorPropertyMetadata $PropertyMetadata Various pieces of metadata needed for the property to be hydrated.
-	 * @return boolean Return false on error.
+	 * @return void
 	 */
-	protected function hydrateObjectProperty(object $Object, ReflectionProperty $Property, mixed $value, HydratorPropertyMetadata $PropertyMetadata): bool
+	protected function hydrateObjectProperty(object $Object, ReflectionProperty $Property, mixed $value, HydratorPropertyMetadata $PropertyMetadata): void
 	{
 		// Skip Hydrating if hydrate is set to false.
 		if ($PropertyMetadata->hydrate === false)
 		{
-			return true;
+			return;
 		}
 
 		// We don't recursively hydrate attributes that implement DataProcessingAttributeInterface to avoid an infinite loop.
@@ -82,7 +81,7 @@ class HydrationHelper
 		// If the value wasn't passed in, and the hydration attributes didn't change the value, don't set anything.
 		if ($PropertyMetadata->value_exists === false && $PropertyMetadata->preprocessed_value === $value)
 		{
-			return true;
+			return;
 		}
 
 		if ($PropertyMetadata->convert === true)
@@ -91,8 +90,6 @@ class HydrationHelper
 		}
 
 		$Object->{$Property->name} = $value;
-
-		return true;
 	}
 
 	/**
