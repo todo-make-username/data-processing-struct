@@ -31,6 +31,22 @@ class ValidationResponse implements JsonSerializable
 	}
 
 	/**
+	 * Return all validation failure messages.
+	 *
+	 * @return array<string>
+	 */
+	public function getAllMessages(): array
+	{
+		$messages = [];
+
+		foreach ($this->messages as $PropertyResponse) {
+			array_push($messages, ...$PropertyResponse->messages);
+		}
+
+		return $messages;
+	}
+
+	/**
 	 * Specify data which should be serialized to JSON.
 	 *
 	 * @return array<string,bool|array<string,mixed|array<string>>>

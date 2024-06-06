@@ -21,8 +21,8 @@ class PropertyValidationResponse implements JsonSerializable
 	/**
 	 * The Property Validation Response Class Constructor
 	 *
-	 * @param mixed         $value    If the validation was successful.
-	 * @param array<string> $messages Any validation messages for each property.
+	 * @param mixed         $value    The value that triggered the failure.
+	 * @param array<string> $messages Any validation messages for a property.
 	 */
 	public function __construct(mixed $value, array $messages)
 	{
