@@ -19,6 +19,10 @@ If you have an array with unprocessed and unvalidated raw data, but want a typed
 </div>
 
 ## Overview
+**Overview [short version]:**\
+You start with a base class and data processing property attributes. You end with fully typed, processed, and valdiated object from an array of data.
+
+**Overview [long version]:**\
 One main pain point for anyone working in PHP is processing and validating associative arrays that come from various sources ($_POST, PDO, json_decode, etc). Then we run into the repetitive task of having to revalidate that the data we want exists in the array and it is the correct type, every time we use that data in a new method (I mean, you don't have to, but it is safer that way). This can be nearly eliminated by passing around pre-processed data objects (like a struct in other languages) instead of arrays. This library is how we turn those arrays into objects while also processing and validating the data without all the boilerplate.
 
 **There are 4 main actions this library was designed to help with:**
@@ -30,7 +34,8 @@ One main pain point for anyone working in PHP is processing and validating assoc
 	* This can be turned off if desired.
 1. Clean up an object's values using altering attributes.
 	* Things like automatically running `trim`, or `str_replace` on a handful of properties only requires you to add the corresponding attribute to the desired properties on the object.
-	* These attributes are called `tailor attributes` in this library. Because a tailor 'alters' clothing. (I really just couldn't think of a better name in the moment)
+	* These attributes are called `tailor attributes` in this library. Because a tailor 'alters' clothing.\
+	 _(I really just couldn't think of a better name, I'm open to suggestions)_
 1. Validate an object's properties using validation attributes.
 	* For example, you can set up an attribute that checks if the value of a property matches a regex pattern, or that the value must pass an `!empty` check.
 
@@ -262,7 +267,8 @@ I gladly welcome feedback and suggestions via Github Issues. I thrive on constru
 Bugs of course are submitted via Github Issues as well.
 
 #### Adding New Attributes
-When it comes to adding/requesting new attributes into this library, I ask myself the question: `Would this be useful for everyone? Or just myself?`
+When it comes to adding/requesting new attributes into this library, I ask myself the question:\
+`Would this be useful for everyone? Or just myself?`
 
 #### Code Styling Basics
 * Curly braces `{ }` start on new lines. It is cleaner to look at.
