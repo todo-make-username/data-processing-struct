@@ -10,7 +10,6 @@
 [![License][license-shield]][license-url]
 
 # Data Processing Struct
-If you have an array with unprocessed and unvalidated raw data, but want a typed object instead, this is for you!
 
 [Report Bug](https://github.com/todo-make-username/data-processing-struct/issues)
 ·
@@ -20,12 +19,12 @@ If you have an array with unprocessed and unvalidated raw data, but want a typed
 
 ## Overview
 **Overview [short version]:**\
-You start with a base class and data processing property attributes. You end with fully typed, processed, and valdiated object from an array of data.
+You start with a base class containing data processing property attributes. You end with a fully typed, processed, and validated object from an array of data.
 
 **Overview [long version]:**\
 One main pain point for anyone working in PHP is processing and validating associative arrays that come from various sources ($_POST, PDO, json_decode, etc). Then we run into the repetitive task of having to revalidate that the data we want exists in the array and it is the correct type, every time we use that data in a new method (I mean, you don't have to, but it is safer that way). This can be nearly eliminated by passing around pre-processed data objects (like a struct in other languages) instead of arrays. This library is how we turn those arrays into objects while also processing and validating the data without all the boilerplate.
 
-**There are 4 main actions this library was designed to help with:**
+**There are 4 main actions this library was designed to help with:**\
 1. Hydrate an object's public properties using an associative array of data.
 	* Hydration attributes can act as chainable setter methods that can use the incoming data to assign the object's property something different.
 	* For example, when the attribute `#[JsonDecode(true)]` is used on a property, it will expect a json string during hydration and then parses it. Then it uses that array in the next hydration attribute or saves it to the property.
@@ -61,7 +60,7 @@ The dev requirements are just the typical phpunit and php stan, and code sniffer
 ## Installation
 **Quick Note:** It is not currently set up as a composer package in packagist, I like pulling from github directly in my stuff. If a feature request is made in Github Issues, not by me, to add it as a composer package, I'll look into setting that up.
 
-To install via composer, you need to have it look at this repo directly by modifying your `composer.json`. You'll need to add the repo information in the `repositories` section with your desired version number, or add the section if it doesn't exit. Then add the "package" to your `require` section. Then lastly run `composer update`.
+To install via composer, you need to have it look at this repo directly by modifying your `composer.json`. You'll need to add the repo information in the `repositories` section with your desired version number, or add the section if it doesn't exist. Then add the "package" to your `require` section. Then lastly run `composer update`.
 
 
 composer.json
@@ -86,7 +85,7 @@ composer.json
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Quick Example of Usage:
-In this example we will look at $_POST data. When it comes to arrays, the data doesn't follow strict guidelines which causes bugs. This library simplifies the validation and data processing for you. Below, you'll see I create an object which has properties that corresponds with the expected $_POST keys. By moving away from arrays and towards data driven objects, we can create cleaner code which produces fewer bugs.
+In this example we will look at $_POST data. When it comes to arrays, the data doesn't follow strict guidelines which causes bugs. This library simplifies the validation and data processing for you. Below, you'll see I create an object which has properties that correspond with the expected $_POST keys. By moving away from arrays and towards data driven objects, we can create cleaner code which produces fewer bugs.
 
 Here is a quick and dirty example of how it can be used on $_POST data after a form submission to prepare the data.
 ```PHP
@@ -121,7 +120,7 @@ class ReviewFormData extends Struct
 ...
 
 // This is the data we got from the form:
-// is_public_review was a checkbox. For this example it was unchecked, which doesn't come though.
+// is_public_review was a checkbox. For this example it was unchecked, which doesn't come through.
 $_POST = [
 	'name' => 'Nonya',
 	'review_text' => 'I liked this product.       *cat sitting on spacebar*             ',
@@ -168,13 +167,13 @@ $FormObject->review_image_uploads => [ [ `File 1 Data` ], [ `File 2 Data` ] ]
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Documentation
-This library is fairly simple, it contains a base Struct class which three traits that incorporates hydration, tailoring, and validation. It also contains some pre-made attributes for you to use that take care of some of the more common things. I've also built a demo for you to use and play with. How to run the demo is at the bottom of this readme.
+This library is fairly simple, it contains a base Struct class with three traits that incorporates hydration, tailoring, and validation. It also contains some pre-made attributes for you to use that take care of some of the more common things. I've also built a demo for you to use and play with. How to run the demo is at the bottom of this readme.
 
 #### Useful Info:
 * Attributes are run in order from top to bottom.
 * Only the attributes associated with the method that was called are run.
 * Each helper only looks at an object's public properties.
-	* Yes, I can technically also do the private/protected properties using reflection. It wont happen because that breaks the whole purpose behind private/protected. That said, if there is a use case that would be deemed essential to have that feature, I can look into opening that up. It better be a good reason though.
+	* Yes, I can technically also do the private/protected properties using reflection. It won't happen because that breaks the whole purpose behind private/protected. That said, if there is a use case that would be deemed essential to have that feature, I can look into opening that up. It better be a good reason though.
 * For attribute arguments, use named parameters. It makes things easier for everyone. You can do it the old way if you want, but I recommend using named parameters where you can for self documenting code.
 * When using this library to handle form submissions, it is highly recommended to have default values for any property that has form data that may not be sent over. Like checkboxes. Otherwise PHP might start yelling at you about accessing uninitialized properties.
 * Hydrating properties which can be converted from a string can be hydrated with an object as long as the `__toString()` magic method is set up.
@@ -199,38 +198,100 @@ $SomeStructObj->hydrate($_POST);
 When hydrating an object, the data that is passed in is not always the type you need. So I will try and convert it for you behind the scenes. This can be turned off with a special settings attribute.
 
 **Conversion Notes:**
-* Bools use PHP's `filter_var` to convert common bool strings. When used with a default value, checkbox values in forms becomes very simple to manage.
+* Bools use PHP's `filter_var` to convert common bool strings. When used with a default value, checkbox values in forms become very simple to manage.
 * Array conversions are only done on empty values. Everything else will fail. If you want to convert a value to an array, please create a hydration attribute.
 * For simplicity, conversions are skipped if the data type of the property is some sort of object. That opens too many cans of worms to deal with. You'll need to make your own custom Hydration attribute if you want to populate object properties.
 
 #### Attributes
-TODO
+These hook into the assignment process and use the incoming value to perform an action. This is so you can accept one value and assign a different one. This has some extreme potential because of that. For example, you can easily set up a custom attribute to take an ID, run a query or use a mapper, populate a different object, then assign that to the property instead of that simple ID.
+
+Hydration attributes can also be used as a way to pre-validate the incoming data, or lack thereof, like the `Required` attribute.
+
+**Hydration Settings Attribute**
+This is a special attribute that can be applied to the whole class, or individual attributes. It tells the hydrator what to do and what not to do. By default, hydration and conversion will always run if it can.
+* `#[HydratorSettings()]` - This is the settings attribute that is used to enable or disable certain aspects of the hydrator for the property.
+	* **Optional Parameter:** `hydrate: bool` [default: true] - This enables/disables hydration completely for the property (or class if put on the class). Type conversions will not run if this is disabled for obvious reasons.
+	* **Optional Parameter:** `convert: bool` [default: true] - This enables/disables the type conversions. If set to false, you will need to convert all the data yourself to the correct types.
+
+**Hydration Attributes**
+* `#[FileUpload]` - Specify if a property was an upload(s) and automatically pull the data from $_FILES.
+	* **Optional Parameter:** `transpose: bool` [default: true] - This will format PHP's awkwardly organized multi-uploads array into an array for each uploaded file as an element with the format of a single upload.\
+	<code>[ [file1 data], [file2 data] ]</code>
+	* **Property Data Type Restriction:** Array compatible fields only.
+	* **Special Note:** This will remain an array exclusive because everyone has a different file data class which are all initialized differently. If you want to use your own file data class, ignore this attribute and make a custom hydration attribute which has the logic to set up your desired object.
+* `#[JsonDecode]` - Exactly what PHP's `json_decode` does. Takes a JSON string and tries to convert it to an array. The optional constructor arguments match PHP's method as well.
+	* **Optional Parameter:** `associative: bool|null` [default: null] - Determines if the value should be parsed as an associative array or not.
+	* **Optional Parameter:** `depth: int` [default: 512] - Specified recursion depth.
+	* **Optional Parameter:** `flags: int` [default: 0] - Bit mask of JSON decode options.
+	* **Property Data Type Restriction:** Array compatible fields only.
+* `#[Required]` - This will throw a `HydrationException` if the property doesn't have a matching key in the incoming array. Basically it is just an `array_has_key` check.
+
+#### Hydration Attribute Properties
+These are set when a Hydration Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractHydratorAttribute` class.
+
+* `public ReflectionProperty $Property;` - The ReflectionProperty object to look up information about the property.
+* `public bool $value_exists = false;` - This is true if a key matching the property's name is in the incoming array.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### The Tailor
-This method tailors (aka alters. Ya know, like a tailor does to clothes) the data in an objects public properties using various tailor attributes.
+This method tailors (aka alters. Ya know, like a tailor does to clothes) the data in an object's public properties using various tailor attributes.
 
 #### Basic Usage:
 ```PHP
 $SomeStructObj->tailor();
 ```
 
-#### Attributes
-TODO
+#### Tailor Attributes
+When placed on an object's property, they will alter the value currently in it.
+
+* `#[HtmlSpecialChars(flags: int, encoding: string|null, double_encode: bool)]` - This behaves exactly like PHP's `htmlspecialchars` and takes the same parameters.
+	* **Property Data Type Restriction:** String only.
+* `#[StrReplace(search: string|array, replace: string|array)]` - This behaves exactly like PHP's `str_replace`.
+	* **Property Data Type Restriction:** String and Array only. Those are the types that work in PHP's `str_replace`.
+* `#[Trim]` - That's what we all want this library for, now you got it. With the Trim attribute, any data in that property is trimmed.
+	* **Property Data Type Restriction:** String only.
+	* **Optional Parameter:** `characters: string` - The characters are the same param that is passed to PHP's `trim` function.
+* `#[UseDefaultOnEmpty]` - Basically exactly what it says. When the current assigned value passes an `empty` check, reflection looks at the property's default value, and then uses that instead.
+	* Pro Tip: Combine with `#[Trim]` to clean up blank form fields with a single space in them.
+
+#### Tailor Attribute Properties
+These are set when a Tailor Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractTailorAttribute` class.
+
+* `public ReflectionProperty $Property;` - The ReflectionProperty object to look up information about the property.
+* `public bool $is_initialized;` - Basically what it says. Tells you if the property has been initialized with a value or not.
+	* **IMPORTANT:** This will ALWAYS be true for non-typed properties (aka Duck Typed), even with no default value. Blame PHP's `ReflectionProperty`, not me.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### The Validator
-This helper validates the data in an objects public properties and returns `true` if it is all valid. The validation runs on each parameter that has one or more validation attributes. All failure messages are kept in an array and can be retrieved with the method `getMessages()`.
+This trait contains a method that validates the data in an object's public properties and returns `ValidationResponse`, which will be described below. The validation runs on each parameter that has one or more validation attributes.
 
-There is an optional, but recommended, attribute for you to use to customize the validation failure messages for validation attribute. This is explained below in the **Custom Failure Messages** section.
+There is an optional, but recommended, attribute for you to use to customize the validation failure messages for any validation attributes on a property. This is explained below in the **Custom Failure Messages** section.
 
 #### Basic Usage:
-TODO
+```PHP
+$failure_messages = [];
+$Validator        = new ObjectValidator($Obj);
 
-#### Attributes
-TODO
+if (!$Validator->isValid())
+{
+	$failure_messages = $Validator->getAllMessages();
+}
+
+print_r($failure_messages);
+```
+
+#### Validator Attributes
+* `#[NotEmpty]` - The value must pass an `!empty` check.
+	* Pro Tip: Combine with `#[Trim]` for validating form fields.
+* `#[RegexMatch(pattern: string)]` - Whether or not you can remember how to write a regex is a different issue.
+
+#### Validator Attribute Properties
+These are set when the specific Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractValidatorAttribute` class.
+
+* `public ReflectionProperty $Property;` - The ReflectionProperty object to look up information about the property.
+* `public bool $is_initialized = false;` - Tells you if the property has been initialized with a value or not.
 
 #### Custom Failure Messages
 This is not so much a validation attribute as it is a validation helper attribute. This is so that error messages coming from the validation will be more useful for everyone. Here is an example of how it is used on a property.
@@ -246,6 +307,23 @@ When the validation method is run, and the value in $email is empty, that error 
 
 Side note: As you can see, I'm not using named properties for this since it is fairly simple. First param is the validation attribute the message is for, the second param is the failure message. The attribute declaration for these when using named params can get lengthy, especially for longer messages, so I omitted them in all my examples and demo. Feel free to use named params though, it won't break anything to use them, except maybe your linter.
 
+#### ValidationResponse
+This is the object that is returned to you after the validator has run. It contains an organized way to track all the validation failures. This object can be used in `json_encode` for easy breakdown if needed.
+
+**ValidationResponse Methods**
+* `public function getAllMessages(): array` - This is a quick way to grab all the failure messages in a single one dimensional array of strings, instead of having to go through each property yourself. 
+
+**ValidationResponse Public Properties**
+* `public readonly bool $success;` - This is the value that determines if the Struct's validation was successful.
+* `public readonly array $messages;` - This contains a map of all property names that failed validation and a `PropertyValidationResponse` object to hold the failure information (described below).
+
+#### PropertyValidationResponse
+This is the response returned if a property failed validation. It contains some debug data as well as an array of failure messages for the property. This object can be used in `json_encode` for easy breakdown if needed. It also chains with `ValidationResponse` so calling `json_encode` on `ValidationResponse` will also break these objects down automatically.
+
+**PropertyValidationResponse Public Properties**
+* `public readonly mixed $value;` - This is some debug data. It is the value that caused the validations to fail for this property.
+* `public readonly array $messages;` - Just an array of strings that contains all the failure messages for this property.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## How to run the demo
@@ -259,6 +337,7 @@ http://localhost:8000/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- 
 ## Contributing
 This project will always strive to maintain **100% Code Coverage** via **integration tests** and **PHP Stan Level 9!**
 
@@ -286,6 +365,8 @@ When it comes to adding/requesting new attributes into this library, I ask mysel
 * You need a really good reason to use `@codeCoverageIgnore` or similar flags.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+-->
 
 _<h5>tab indentation is better. #teamtabs</h5>_
 
