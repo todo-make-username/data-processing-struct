@@ -1,0 +1,99 @@
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Description:</h3>
+		<p>This is an example of all the pieces being used together to process a new user form.</p>
+		<h4>Notes:</h4>
+		<p>For this demo, html and js validation will not be used to showcase the validator responses.</p>
+		<p>Bools are my favorite part of all of this since PHP has smart conversions for it. yes/no, on/off, 1/0, 'true'/'false' all cleanly convert to boolean via <code>filter_var()</code>.</p>
+		<p>It is highly recommended to set a default value for the property on the Struct for any inputs that don't always get sent over, like checkboxes. Otherwise PHP might start yelling at you about accessing uninitialized properties.</p>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1">
+		<h3>Examples:</h3>
+		<legend>New User Form:</legend>
+	</div>
+</div>
+<div class="pure-g">
+	<div class="pure-u-1 align-top">
+		<div class="pure-control-group">
+			<label>Name*:</label>
+			<input type="text" class="form-control" name="name" value="">
+			<span class="pure-form-message-inline">
+				<small>
+					#[Required]<br>
+					#[Trim]<br>
+					#[NotEmpty]<br>
+					#[ValidatorFailureMessage(NotEmpty::class, 'Name is required')]
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Password*:<br>
+				<small>
+					Must be the word 'password'<br>case insensitive<br>letter substitutions allowed.
+				</small>
+			</label>
+			<input type="text" class="form-control" name="password" value="p@5Sw0rD">
+			<span class="pure-form-message-inline">
+				<small>
+					#[Required]<br>
+					#[NotEmpty]<br>
+					#[RegexMatch('/^p[a|@|4][s|5]{2}w[o|0]rd$/i')]<br>
+					#[ValidatorFailureMessage(NotEmpty::class, 'Password is required')]<br>
+					#[ValidatorFailureMessage(RegexMatch::class, 'Password must be "password"')]
+				</small>
+			</span>
+		</div>
+		
+		<div class="pure-control-group">
+			<label>Age*:</label>
+			<input type="text" class="form-control" name="age" value="">
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Send me daily dad jokes:
+			</label>
+			<input type="checkbox" class="form-check-input" name="enabled_daily_jokes">
+		</div>
+
+		<div class="pure-control-group">
+			<label>Pets:<br><small>Select all that apply</small></label>
+			<select name="pets[]" multiple>
+				<option value="cat">Cat</option>
+				<option value="dog">Dog</option>
+				<option value="bird">Bird</option>
+				<option value="rodent">Rodent</option>
+				<option value="reptile">Reptile</option>
+				<option value="other">Other</option>
+			</select>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Profile Picture:
+			</label>
+			<input type="file" class="form-control" name="profile_picture">
+			<span class="pure-form-message-inline">
+				<small>
+					#[FileUpload]
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Approve Fake ToS:
+			</label>
+			<input type="checkbox" class="form-check-input" name="approved_tos">
+			<span class="pure-form-message-inline">
+				<small>
+					#[Required]
+				</small>
+			</span>
+		</div>
+	</div>
+</div>

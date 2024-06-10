@@ -11,20 +11,18 @@ use TodoMakeUsername\DataProcessingStruct\Validator\Exceptions\ValidatorExceptio
  *
  * Without this, a validation attribute would provide a very generic message about what went wrong.
  */
-#[Attribute(Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class ValidatorFailureMessage
 {
 	/**
 	 * The constructor
 	 *
-	 * @param string  $attribute_class The class this message attribute is for.
-	 * @param string  $message         The message if the validation fails.
-	 * @param boolean $throw_exception Determines if the validation should cleanly return or not.
+	 * @param string $attribute_class The class this message attribute is for.
+	 * @param string $message         The message if the validation fails.
 	 */
 	public function __construct(
 		public string $attribute_class,
-		public string $message,
-		public bool $throw_exception=false
+		public string $message
 	)
 	{
 		if (is_subclass_of($attribute_class, AbstractValidatorAttribute::class) === false)

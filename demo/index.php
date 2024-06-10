@@ -92,6 +92,7 @@
 
 		#output_container {
 			padding-left: 25px;
+			font-size: small;
 		}
 
 		#output_container pre {
@@ -114,8 +115,13 @@
 			vertical-align: top;
 		}
 
-		.pure-form-aligned .pure-control-group label {
+		.pure-form-aligned .pure-control-group label,
+		.pure-form-aligned .pure-control-group .form-control {
 			width: 14em;
+		}
+
+		.pure-form-aligned .pure-control-group .form-check-input {
+			margin-right: 13.25em;
 		}
 
 		pre.example {
@@ -266,7 +272,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="pure-u-2-5">
+		<div class="pure-u-3-5">
 			<?php foreach ($section_name_map as $section) { ?>
 				<section id="section-<?= $section['id'] ?>">
 					<?php if ($section['is_form']) { ?>
@@ -288,7 +294,7 @@
 				</section>
 			<?php } ?>
 		</div>
-		<div class="pure-u-2-5">
+		<div class="pure-u-1-5">
 			<div id="output_container">
 				<div class="pure-g">
 					<div class="pure-u-1-4 align-top">Message:</div>
