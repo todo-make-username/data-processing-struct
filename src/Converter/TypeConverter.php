@@ -169,7 +169,9 @@ class TypeConverter
 	}
 
 	/**
-	 * Convert value to an integer
+	 * Convert value to an integer.
+	 *
+	 * Empty values are returned as 0
 	 *
 	 * @param mixed $value The value to convert.
 	 * @return integer
@@ -178,6 +180,10 @@ class TypeConverter
 	 */
 	public static function convertToInt(mixed $value): int
 	{
+		if (empty($value) === true) {
+			return 0;
+		}
+
 		// filter_var INT Note: Characters after numbers will work, but not the other way around:
 		//     aa123 will fail, 123aa will convert to 123.
 		$new_value = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
@@ -194,6 +200,8 @@ class TypeConverter
 	/**
 	 * Convert value to a float
 	 *
+	 * Empty values are returned as 0.0
+	 *
 	 * @param mixed $value The value to convert.
 	 * @return float
 	 *
@@ -201,6 +209,10 @@ class TypeConverter
 	 */
 	public static function convertToFloat(mixed $value): float
 	{
+		if (empty($value) === true) {
+			return 0.0;
+		}
+
 		$new_value = filter_var($value, FILTER_VALIDATE_FLOAT, (FILTER_FLAG_ALLOW_THOUSAND | FILTER_NULL_ON_FAILURE));
 
 		if (is_null($new_value) === true)

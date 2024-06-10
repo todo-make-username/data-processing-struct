@@ -35,10 +35,33 @@ class HydratorConversionToFloatTest extends TestCase
 		}
 	}
 
+	public function testFloatConversionEmpty(): void
+	{
+		$hydrate_data = [
+			'from_empty_array' => [],
+			'from_empty_string' => '',
+			'from_null' => null,
+		];
+
+		$Obj = new class() extends Struct
+		{
+			public float $from_empty_array;
+
+			public float $from_empty_string;
+
+			public float $from_null;
+		};
+		$Obj->hydrate($hydrate_data);
+
+		foreach ($hydrate_data as $field => $value) {
+			$this->assertSame(0.0, $Obj->{$field}, $field);
+		}
+	}
+
 	public function testFloatConversionFail(): void
 	{
 		$hydrate_data = [
-			'from_array' => [],
+			'from_array' => [ 1, 2, 3 ],
 		];
 
 		$Obj = new class() extends Struct

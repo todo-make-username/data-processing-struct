@@ -35,6 +35,29 @@ class HydratorConversionToIntTest extends TestCase
 		}
 	}
 
+	public function testIntConversionEmpty(): void
+	{
+		$hydrate_data = [
+			'from_empty_array' => [],
+			'from_empty_string' => '',
+			'from_null' => null,
+		];
+
+		$Obj = new class() extends Struct
+		{
+			public int $from_empty_array;
+
+			public int $from_empty_string;
+
+			public int $from_null;
+		};
+		$Obj->hydrate($hydrate_data);
+
+		foreach ($hydrate_data as $field => $value) {
+			$this->assertSame(0, $Obj->{$field}, $field);
+		}
+	}
+
 	public function testIntConversionFail(): void
 	{
 		$hydrate_data = [
