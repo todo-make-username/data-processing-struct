@@ -308,14 +308,14 @@ When the validation method is run, and the value in $email is empty, that error 
 Side note: As you can see, I'm not using named properties for this since it is fairly simple. First param is the validation attribute the message is for, the second param is the failure message. The attribute declaration for these when using named params can get lengthy, especially for longer messages, so I omitted them in all my examples and demo. Feel free to use named params though, it won't break anything to use them, except maybe your linter.
 
 #### ValidationResponse
-This is the object that is returned to you after the validator has run. It contains an organized way to track all the validation failures. This object can be used in `json_encode` for easy breakdown if needed.
+This is the object that is returned to you after the validator has run. It contains an organized way to track all the validation failure information. This object can be used in `json_encode` for easy breakdown if needed.
 
 **ValidationResponse Methods**
 * `public function getAllMessages(): array` - This is a quick way to grab all the failure messages in a single one dimensional array of strings, instead of having to go through each property yourself. 
 
 **ValidationResponse Public Properties**
 * `public readonly bool $success;` - This is the value that determines if the Struct's validation was successful.
-* `public readonly array $messages;` - This contains a map of all property names that failed validation and a `PropertyValidationResponse` object to hold the failure information (described below).
+* `public readonly array $property_responses;` - This contains a map of all the property names that failed validation, and their `PropertyValidationResponse` object which holds the failure information of that property (described below).
 
 #### PropertyValidationResponse
 This is the response returned if a property failed validation. It contains some debug data as well as an array of failure messages for the property. This object can be used in `json_encode` for easy breakdown if needed. It also chains with `ValidationResponse` so calling `json_encode` on `ValidationResponse` will also break these objects down automatically.
