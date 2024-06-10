@@ -22,8 +22,8 @@ class ValidatorHelper
 	{
 		$ObjectReflector = new ObjectReflector(new ReflectionClass($Object));
 
-		$success  = true;
-		$messages = [];
+		$success            = true;
+		$property_responses = [];
 
 		$Properties = $ObjectReflector->getObjectProperties(ReflectionProperty::IS_PUBLIC);
 		foreach ($Properties as $Property)
@@ -32,12 +32,12 @@ class ValidatorHelper
 
 			if (is_null($Response) === false)
 			{
-				$success                   = false;
-				$messages[$Property->name] = $Response;
+				$success                             = false;
+				$property_responses[$Property->name] = $Response;
 			}
 		}
 
-		return new ValidationResponse($success, $messages);
+		return new ValidationResponse($success, $property_responses);
 	}
 
 	/**

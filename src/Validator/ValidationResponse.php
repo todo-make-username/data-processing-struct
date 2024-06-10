@@ -12,22 +12,22 @@ class ValidationResponse implements JsonSerializable
 	public readonly bool $success;
 
 	/**
-	 * All failure messages on each property that occurred during validation.
+	 * The responses for each property that failed validation.
 	 *
 	 * @var array<string,PropertyValidationResponse>
 	 */
-	public readonly array $messages;
+	public readonly array $property_responses;
 
 	/**
 	 * The Validation Response Class Constructor
 	 *
-	 * @param boolean                                  $success  If the validation was successful.
-	 * @param array<string,PropertyValidationResponse> $messages Any validation messages for each property.
+	 * @param boolean                                  $success            If the validation was successful.
+	 * @param array<string,PropertyValidationResponse> $property_responses Any validation responses for each property.
 	 */
-	public function __construct(bool $success, array $messages)
+	public function __construct(bool $success, array $property_responses)
 	{
-		$this->success  = $success;
-		$this->messages = $messages;
+		$this->success            = $success;
+		$this->property_responses = $property_responses;
 	}
 
 	/**
@@ -39,7 +39,7 @@ class ValidationResponse implements JsonSerializable
 	{
 		$messages = [];
 
-		foreach ($this->messages as $PropertyResponse) {
+		foreach ($this->property_responses as $PropertyResponse) {
 			array_push($messages, ...$PropertyResponse->messages);
 		}
 
@@ -53,15 +53,15 @@ class ValidationResponse implements JsonSerializable
 	 */
 	public function jsonSerialize(): array
 	{
-		$messages = [];
+		$property_responses = [];
 
-		foreach ($this->messages as $field => $Response) {
-			$messages[$field] = $Response->jsonSerialize();
+		foreach ($this->property_responses as $field => $Response) {
+			$property_responses[$field] = $Response->jsonSerialize();
 		}
 
 		return [
-			'success'  => $this->success,
-			'messages' => $messages,
+			'success'            => $this->success,
+			'property_responses' => $property_responses,
 		];
 	}
 }

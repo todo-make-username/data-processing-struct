@@ -16,13 +16,7 @@ try {
 
 	if ($Response->success === false)
 	{
-		$failure_messages = [];
-		foreach ($Response->messages as $key => $PropertyResponse) {
-			foreach($PropertyResponse->messages as $failure_message)
-			{
-				$failure_messages[] = $failure_message;
-			}
-		}
+		$failure_messages = $Response->getAllMessages();
 
 		$message = implode(PHP_EOL, $failure_messages);
 	}

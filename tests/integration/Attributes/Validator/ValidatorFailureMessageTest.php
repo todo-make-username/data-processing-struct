@@ -23,7 +23,7 @@ class ValidatorFailureMessageTest extends TestCase
 		$Response = $Obj->validate();
 		$this->assertFalse($Response->success);
 
-		$this->assertSame('My fail message', $Response->messages['prop1']->messages[0]);
+		$this->assertSame('My fail message', $Response->property_responses['prop1']->messages[0]);
 	}
 
 	public function testValidatorMultipleFailWithMultipleMessages(): void
@@ -42,7 +42,7 @@ class ValidatorFailureMessageTest extends TestCase
 		$Response = $Obj->validate();
 		$this->assertFalse($Response->success);
 
-		$messages = $Response->messages;
+		$messages = $Response->property_responses;
 		$this->assertTrue(in_array('prop1 fail message', $messages['prop1']->messages));
 		$this->assertTrue(in_array('prop2 fail message', $messages['prop2']->messages));
 	}
