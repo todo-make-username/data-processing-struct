@@ -120,7 +120,7 @@
 			width: 14em;
 		}
 
-		.pure-form-aligned .pure-control-group .form-check-input {
+		.pure-form-aligned .pure-control-group .form-check-input:not(.toggle-input) {
 			margin-right: 13.25em;
 		}
 
@@ -254,8 +254,8 @@
 		<div class="pure-u-1-5">
 			<h2 class="text-center">Demo Sections</h2>
 		</div>
-		<div class="pure-u-2-5"></div>
-		<div class="pure-u-2-5">
+		<div class="pure-u-3-5"></div>
+		<div class="pure-u-1-5">
 			<h2 class="text-center">Response</h2>
 		</div>
 	</div>

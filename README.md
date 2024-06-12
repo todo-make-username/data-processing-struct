@@ -226,7 +226,7 @@ This is a special attribute that can be applied to the whole class, or individua
 	* **Property Data Type Restriction:** Array compatible fields only.
 * `#[Required]` - This will throw a `HydrationException` if the property doesn't have a matching key in the incoming array. Basically it is just an `array_has_key` check.
 * `#[TypedArray]` - Convert all values in the incoming array to a specific scalar type [ bool, int, float, string ].
-	* **Parameter:** `type: string` - This is the type you wish to convert the values to.
+	* **Parameter:** `type: string` - This is the type you wish to convert the array values to.
 	* **Property Data Type Restriction:** Array compatible fields only.
 
 #### Hydration Attribute Properties

@@ -13,7 +13,15 @@
 		<pre class="example">
 $Response = $Obj->validate();
 echo $Response->success ? 'Success' : 'Fail';
-// All failure messages are contained in $Response->messages.
+
+// array[string]
+$all_messages = $Response->getAllMessages();
+
+// PropertyValidationResponse
+$SomePropertyResponse = $Response->property_responses['some_property_name'];
+
+// array[string]
+$property_messages = $SomePropertyResponse->messages;
 		</pre>
 	</div>
 </div>
