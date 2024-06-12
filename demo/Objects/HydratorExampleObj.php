@@ -5,6 +5,7 @@ namespace TodoMakeUsername\DataProcessingStructDemo\Objects;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\FileUpload;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\JsonDecode;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Required;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\TypedArray;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class HydratorExampleObj extends Struct implements ObjInterface
@@ -18,6 +19,9 @@ class HydratorExampleObj extends Struct implements ObjInterface
 	#[JsonDecode(true)]
 	public array $val_array;
 
+	#[TypedArray('int')]
+	public array $typed_array = [];
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -27,6 +31,7 @@ class HydratorExampleObj extends Struct implements ObjInterface
 			'required'    => $this->required,
 			'file_single' => $this->file_single,
 			'val_array'   => $this->val_array,
+			'typed_array' => $this->typed_array,
 		];
 	}
 }

@@ -225,6 +225,9 @@ This is a special attribute that can be applied to the whole class, or individua
 	* **Optional Parameter:** `flags: int` [default: 0] - Bit mask of JSON decode options.
 	* **Property Data Type Restriction:** Array compatible fields only.
 * `#[Required]` - This will throw a `HydrationException` if the property doesn't have a matching key in the incoming array. Basically it is just an `array_has_key` check.
+* `#[TypedArray]` - Convert all values in the incoming array to a specific scalar type [ bool, int, float, string ].
+	* **Parameter:** `type: string` - This is the type you wish to convert the values to.
+	* **Property Data Type Restriction:** Array compatible fields only.
 
 #### Hydration Attribute Properties
 These are set when a Hydration Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractHydratorAttribute` class.

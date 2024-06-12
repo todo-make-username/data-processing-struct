@@ -45,12 +45,28 @@
 		</div>
 		<div class="pure-control-group">
 			<label>
-				Array:
+				JSON:
 			</label>
 			<textarea type="text" class="form-control" name="val_array" value=""><?= json_encode([ 'A' => [ 'AA' => '11' ], 'B' => 2 ]) ?></textarea>
 			<span class="pure-form-message-inline">
 				<small>
 					#[JsonDecode(true)]
+				</small>
+			</span>
+		</div>
+		<div class="pure-control-group">
+			<label>
+				TypedArray:
+			</label>
+			<select class="form-control" name="typed_array[]" multiple>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+			</select>
+			<span class="pure-form-message-inline">
+				<small>
+					#[TypedArray('int')]
 				</small>
 			</span>
 		</div>

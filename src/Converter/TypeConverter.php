@@ -60,7 +60,7 @@ class TypeConverter
 		foreach($type_methods as $type_method)
 		{
 			try {
-				$value = self::callConversionMethod($type_method, $value);
+				$value = $type_method($value);
 			} catch (ConversionException $th) {
 				continue;
 			}
@@ -75,18 +75,6 @@ class TypeConverter
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Wrapper to call the conversion method.
-	 *
-	 * @param string $method The conversion method to call.
-	 * @param mixed  $value  The value to convert.
-	 * @return mixed
-	 */
-	protected static function callConversionMethod(string $method, mixed $value): mixed
-	{
-		return self::$method($value);
 	}
 
 	/**
@@ -122,20 +110,44 @@ class TypeConverter
 	 * Get all methods to call using an array of types.
 	 *
 	 * @param array<string> $types Data types to get the conversion methods for.
-	 * @return array<string>
+	 * @return array<callable>
 	 */
 	protected static function getConversionMethodsToCall(array $types): array
 	{
 		$methods = [];
 		foreach ($types as $type) {
-			$type = strtolower($type);
-			if (array_key_exists($type, self::$type_method_map) === true)
+			$method = self::getConversionMethodFromType($type);
+
+			if ($method !== null && in_array($method, $methods) === false)
 			{
-				$methods[] = self::$type_method_map[$type];
+				$methods[] = $method;
 			}
 		}
 
-		return array_unique($methods);
+		return $methods;
+	}
+
+	/**
+	 * Get the method to use to convert to the specified type or null if not supported.
+	 *
+	 * @param string $type The type to convert to.
+	 * @return callable|null The conversion method to call.
+	 */
+	public static function getConversionMethodFromType(string $type): ?callable
+	{
+		$type   = strtolower($type);
+		$method = null;
+
+		if (array_key_exists($type, self::$type_method_map) === true)
+		{
+			/** @var callable $method */
+			$method = [
+				self::class,
+				self::$type_method_map[$type]
+			];
+		}
+
+		return $method;
 	}
 
 	/**
