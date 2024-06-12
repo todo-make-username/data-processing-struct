@@ -47,7 +47,7 @@ class TailorHelper
 			$is_initialized,
 		);
 
-		// We don't recursively call attributes on attributes from this project to avoid an infinite loop.
+		// We don't recursively call attributes on attributes from this library to avoid an infinite loop.
 		// There shouldn't be any attributes on attribute properties, but just in case.
 		if (($Object instanceof DataProcessingAttributeInterface) === false)
 		{

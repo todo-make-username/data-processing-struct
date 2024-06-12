@@ -3,9 +3,7 @@
 namespace TodoMakeUsername\DataProcessingStruct\Attributes\Shared;
 
 /**
- * The base interface for all attributes used in this project.
- *
- * Used to filter out the attributes that we care about.
+ * The base interface for all attributes used in this library.
  */
 interface DataProcessingAttributeInterface
 {
