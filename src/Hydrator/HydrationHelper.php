@@ -45,7 +45,13 @@ class HydrationHelper
 			/** @var HydrationSettings */
 			$PropertySettings = (new PropertyReflector($Property))->getPropertyAttribute(HydrationSettings::class)?->newInstance() ?? $ClassSettings;
 
-			$Metadata = $this->getPropertyMetadata($Property, $value_exists, $value, $PropertySettings);
+			$Metadata = new HydratorPropertyMetadata(
+				$Property,
+				$value_exists,
+				$value,
+				$PropertySettings->hydrate,
+				$PropertySettings->convert,
+			);
 
 			$this->hydrateObjectProperty($Object, $Property, $value, $Metadata);
 		}
@@ -90,28 +96,6 @@ class HydrationHelper
 		}
 
 		$Object->{$Property->name} = $value;
-	}
-
-	/**
-	 * Get Metadata object for the property that contains various settings and info about the property and the hydration value.
-	 *
-	 * @param ReflectionProperty $Property           The reflection of the property.
-	 * @param boolean            $exists             If the value was set in the hydration array.
-	 * @param mixed              $preprocessed_value The value that was passed in with the hydration array, or null if not set.
-	 * @param HydrationSettings  $Settings           The Hydration Settings for the property.
-	 * @return HydratorPropertyMetadata
-	 */
-	protected function getPropertyMetadata(ReflectionProperty $Property, bool $exists, mixed $preprocessed_value, HydrationSettings $Settings): HydratorPropertyMetadata
-	{
-		$Metadata = new HydratorPropertyMetadata(
-			$Property,
-			$exists,
-			$preprocessed_value,
-			$Settings->hydrate,
-			$Settings->convert,
-		);
-
-		return $Metadata;
 	}
 
 	/**
