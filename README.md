@@ -60,26 +60,20 @@ The dev requirements are just the typical phpunit and php stan, and code sniffer
 ## Installation
 **Quick Note:** It is not currently set up as a composer package in packagist, I like pulling from github directly in my stuff. If a feature request is made in Github Issues, not by me, to add it as a composer package, I'll look into setting that up.
 
-To install via composer, you need to have it look at this repo directly by modifying your `composer.json`. You'll need to add the repo information in the `repositories` section with your desired version number, or add the section if it doesn't exist. Then add the "package" to your `require` section. Then lastly run `composer update`.
+To install via composer, you need to have it look at this repo directly by modifying your `composer.json`. To do this, add the repo information in the `repositories` section with your desired version number or branch (the example shows using the main branch), or add the section if it doesn't exist. Then add the "package" to your `require` section. Then lastly run `composer update`.
 
 
 composer.json
 ```
-"require": {
-    ...,
-    "todomakeusername/data-processing-struct": "*"
-},
-
-...
-
 "repositories": [
-    {...},
-	{
-		"url": "https://github.com/todo-make-username/data-processing-struct.git",
-		"type": "git",
-	},
-    {...},
-]
+    {
+        "url": "https://github.com/todo-make-username/data-processing-struct.git",
+        "type": "git"
+    }
+],
+"require": {
+    "todo-make-username/data-processing-struct": "dev-main"
+},
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
