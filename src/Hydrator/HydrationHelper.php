@@ -50,7 +50,7 @@ class HydrationHelper
 				$value_exists,
 				$value,
 				$PropertySettings->hydrate,
-				$PropertySettings->convert,
+				$PropertySettings->enhanced_conversion,
 			);
 
 			$this->hydrateObjectProperty($Object, $Property, $value, $Metadata);
@@ -90,12 +90,12 @@ class HydrationHelper
 			return;
 		}
 
-		if ($PropertyMetadata->convert === true)
+		if ($PropertyMetadata->enhanced_conversion === true)
 		{
 			$value = TypeConverter::convertValueToPropertyType($value, $Property->getType());
 		}
 
-		$Object->{$Property->name} = $value;
+		$Property->setValue($Object, $value);
 	}
 
 	/**

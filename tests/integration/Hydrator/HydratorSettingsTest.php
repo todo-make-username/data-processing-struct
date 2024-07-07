@@ -49,17 +49,17 @@ class HydratorSettingsTest extends TestCase
 	public function testConversionSettingOff(): void
 	{
 		$hydrate_data = [
-			'from_int' => 321,
+			'from_string' => '',
 		];
 
 		$Obj = new class() extends Struct
 		{
-			#[HydrationSettings(convert: false)]
-			public string $from_int;
+			#[HydrationSettings(enhanced_conversion: false)]
+			public array $from_string;
 		};
 
 		$this->expectException(TypeError::class);
-		$this->expectExceptionMessageMatches('/^Cannot assign int to property .*?::\$from_int of type string$/');
+		$this->expectExceptionMessageMatches('/^Cannot assign string to property .*?::\$from_string of type array$/');
 
 		$Obj->hydrate($hydrate_data);
 

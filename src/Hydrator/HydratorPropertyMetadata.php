@@ -31,34 +31,34 @@ class HydratorPropertyMetadata
 	public readonly bool $hydrate;
 
 	/**
-	 * If type conversion is enabled for this property. [Default: **TRUE**]
+	 * If enhanced type conversion is enabled for this property. [Default: **TRUE**]
 	 *
 	 * Overridden from the HydrationSettings attribute on either the class and/or the specific object's property. The property attribute will overwrite the class attribute values.
 	 */
-	public readonly bool $convert;
+	public readonly bool $enhanced_conversion;
 
 
 	/**
 	 * The Class Constructor
 	 *
-	 * @param ReflectionProperty $Property           The value to assign to the Property readonly property.
-	 * @param boolean            $value_exists       The value to assign to the value_exists readonly property.
-	 * @param mixed              $preprocessed_value The value to assign to the preprocessed_value readonly property.
-	 * @param boolean            $hydrate            The value to assign to the hydrate readonly property.
-	 * @param boolean            $convert            The value to assign to the convert readonly property.
+	 * @param ReflectionProperty $Property            The value to assign to the Property readonly property.
+	 * @param boolean            $value_exists        The value to assign to the value_exists readonly property.
+	 * @param mixed              $preprocessed_value  The value to assign to the preprocessed_value readonly property.
+	 * @param boolean            $hydrate             The value to assign to the hydrate readonly property.
+	 * @param boolean            $enhanced_conversion The value to assign to the convert readonly property.
 	 */
 	public function __construct(
 		ReflectionProperty $Property,
 		bool $value_exists,
 		mixed $preprocessed_value,
 		bool $hydrate,
-		bool $convert,
+		bool $enhanced_conversion,
 	)
 	{
-		$this->Property           = $Property;
-		$this->value_exists       = $value_exists;
-		$this->preprocessed_value = $preprocessed_value;
-		$this->hydrate            = $hydrate;
-		$this->convert            = $convert;
+		$this->Property            = $Property;
+		$this->value_exists        = $value_exists;
+		$this->preprocessed_value  = $preprocessed_value;
+		$this->hydrate             = $hydrate;
+		$this->enhanced_conversion = $enhanced_conversion;
 	}
 }

@@ -19,19 +19,21 @@ class HydrationSettings implements DataProcessingAttributeInterface
 	public readonly bool $hydrate;
 
 	/**
-	 * Determine if values should be converted to the correct type or not.
+	 * Determine if values should be converted with the enhanced conversion or to use PHP's type coercion.
+	 *
+	 * This will handle various values that can be converted to bools, and for arrays it will convert empty values to an empty array.
 	 */
-	public readonly bool $convert;
+	public readonly bool $enhanced_conversion;
 
 	/**
 	 * Set Any Hydration Settings
 	 *
-	 * @param boolean $hydrate Hydrate this or not.
-	 * @param boolean $convert Convert this or not.
+	 * @param boolean $hydrate             Hydrate this or not.
+	 * @param boolean $enhanced_conversion Convert using an expanded set of type conversion rules, or disable to use PHP's type coercion instead.
 	 */
-	public function __construct(bool $hydrate=true, bool $convert=true)
+	public function __construct(bool $hydrate=true, bool $enhanced_conversion=true)
 	{
-		$this->hydrate = $hydrate;
-		$this->convert = $convert;
+		$this->hydrate             = $hydrate;
+		$this->enhanced_conversion = $enhanced_conversion;
 	}
 }

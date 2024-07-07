@@ -31,7 +31,6 @@ One main pain point for anyone working in PHP is processing and validating assoc
 	* For example, when the attribute `#[JsonDecode(true)]` is used on a property, it will expect a json string during hydration and then parses it. Then it uses that array in the next hydration attribute or saves it to the property.
 		* That can then be chained with a custom attribute to take the array data and hydrate a different data object to be saved to the property. With just those 2 attributes you removed a lot of processing from your main flow.
 1. Conversion: While hydrating an object, the values from the incoming data will be automatically converted to the property's type if it can.
-	* This can be turned off if desired.
 1. Validation: Validate an object's properties using validation attributes.
 	* For example, you can set up an attribute that checks if the value of a property matches a regex pattern, or that the value must pass an `!empty` check.
 
@@ -83,6 +82,8 @@ Here is a quick and dirty example of how it can be used on $_POST data after a f
 /**
  * We will be pretending this is coming from a form for a product review.
  *
+ * This example uses readonly properties to make the data immutable, but you don't have to use readonly.
+ *
  * This class has properties that match what we are expecting $_POST to contain.
  * The exception being the file upload one, which looks at $_FILES instead.
  */
@@ -90,22 +91,24 @@ class ReviewFormData extends Struct
 {
 	#[Trim]     // Hydrator Attribute
 	#[NotEmpty] // Validation Attribute
-	public string $name;
+	public readonly string $name;
 
 	// For this example, this is a checkbox, and therefore must have a default value if it is unchecked.
-	public bool $is_public_review = false;
+	// Readonly properties cannot have a default, so use the UseValueOnEmpty attribute
+	#[UseValueOnEmpty(false)] // Hydrator Attribute
+	public readonly bool $is_public_review;
 
-	public int $star_rating;
+	public readonly int $star_rating;
 
 	#[StrReplace('*cat sitting on spacebar*', '')] // Hydrator Attribute
 	#[Trim]                                        // Hydrator Attribute
-	#[UseDefaultOnEmpty]                           // Hydrator Attribute
-	public ?string $review_text = null;
+	#[UseValueOnEmpty(null)]                       // Hydrator Attribute
+	public readonly ?string $review_text;
 
 	// FileUpload is a hydration attribute that pulls the data automatically from the $_FILES array.
 	//		the optional param will format the array into a cleaner format for multi-uploads.
 	#[FileUpload(transpose: true)] // Hydration Attribute
-	public array $review_image_uploads;
+	public readonly array $review_image_uploads;
 }
 
 ...
@@ -166,7 +169,7 @@ This library is fairly simple, it contains a base Struct class with two traits t
 * When using this library to handle form submissions, it is highly recommended to have default values for any property that has form data that may not be sent over. Like checkboxes. Otherwise PHP might start yelling at you about accessing uninitialized properties.
 * Hydrating properties which can be converted from a string can be hydrated with an object as long as the `__toString()` magic method is set up.
 * Fun Fact: I use the demo as a testing ground for changes.
-* Sad Fact: This library cannot work with readonly properties (for now) as those can only be set from within the object itself and cannot be changed once set.
+* Cool Fact: This library works with readonly properties to make the object immutable. So you can pass it around without worrying if the data will change along the way.
 
 Now, on to the actual docs...
 
@@ -176,6 +179,8 @@ Now, on to the actual docs...
 This method takes an assoc array of data and hydrates the object's public properties while also converting the data to the proper types (when it can). The property name must match an array key in the incoming array.
 
 Hydration attributes are pre-hooks into the assigning of the properties. They use the incoming value to transform it into something different before assigning it. They can also be used as a way to clean the data, and run pre-validation. As a bonus, fully chainable.
+
+Because hydration processes the value before assigning it to the property, you can make properties `readonly` to make the data immutable.
 
 #### Basic Usage:
 ```PHP
@@ -187,9 +192,15 @@ $SomeStructObj->hydrate($_POST);
 ```
 
 #### Conversions
-When hydrating an object, the data that is passed in is not always the type you need. So I will try and convert it for you behind the scenes. This can be turned off with a special settings attribute.
+When hydrating an object, the data that is passed in is not always the type you need. So I will try and convert it for you behind the scenes. You can disable my enhanced conversion if you want to use PHP's type coercion instead.
 
-**Conversion Notes:**
+Conversion happens happens in one of 2 places:
+1. When enhanced conversion is enabled, it will convert after all of the hydration attributes have been processed, and right before assigning it to the property.
+1. When enhanced conversion is disabled, PHP's built in type coercion kicks in while assigning it to the property.
+
+Important Note: Due to how properties are assigned values, it is impossible to turn off conversion completely. Blame PHP for how it handles `strict_types=1` in its internal classes.
+
+**Enhanced Conversion Notes:**
 * Bools use PHP's `filter_var` to convert common bool strings. When used with a default value, checkbox values in forms become very simple to manage.
 * Array conversions are only done on empty values. Everything else will fail. If you want to convert a value to an array, please create a hydration attribute.
 * For simplicity, conversions are skipped if the data type of the property is some sort of object. That opens too many cans of worms to deal with. You'll need to make your own custom Hydration attribute if you want to populate object properties.
@@ -203,7 +214,8 @@ Hydration attributes can also be used as a way to pre-validate the incoming data
 This is a special attribute that can be applied to the whole class, or individual attributes. It tells the hydrator what to do and what not to do. By default, hydration and conversion will always run if it can.
 * `#[HydratorSettings()]` - This is the settings attribute that is used to enable or disable certain aspects of the hydrator for the property.
 	* **Optional Parameter:** `hydrate: bool` [default: true] - This enables/disables hydration completely for the property (or class if put on the class). Type conversions will not run if this is disabled for obvious reasons.
-	* **Optional Parameter:** `convert: bool` [default: true] - This enables/disables the type conversions. If set to false, you will need to convert all the data yourself to the correct types.
+	* **Optional Parameter:** `enhanced_conversion: bool` [default: true] - This enables/disables enhanced type conversions. If set to false, it will use PHP's type type coercion to convert the values.
+		* The enhanced conversion is more flexible with the incoming values. For example, it converts boolean strings like 'on'/'off', objects with `__toString()` can be converted to string, and array typed properties will convert empty values to an empty array.
 
 **Hydration Attributes**
 * `#[FileUpload]` - Specify if a property was an upload(s) and automatically pull the data from $_FILES.

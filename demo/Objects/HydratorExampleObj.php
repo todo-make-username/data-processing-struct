@@ -9,6 +9,7 @@ use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\StrReplace;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Trim;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\TypedArray;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\UseDefaultOnEmpty;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\UseValueOnEmpty;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class HydratorExampleObj extends Struct implements ObjInterface
@@ -30,6 +31,9 @@ class HydratorExampleObj extends Struct implements ObjInterface
 
 	#[UseDefaultOnEmpty]
 	public string $default_on_empty = 'test';
+
+	#[UseValueOnEmpty('test')]
+	public readonly string $value_on_empty;
 
 	#[StrReplace('World', 'You')]
 	public string $str_replace;
@@ -54,6 +58,7 @@ class HydratorExampleObj extends Struct implements ObjInterface
 			'typed_array'      => $this->typed_array,
 			'trim'             => $this->trim,
 			'default_on_empty' => $this->default_on_empty,
+			'value_on_empty'   => $this->value_on_empty,
 			'str_replace'      => $this->str_replace,
 			'useful_mix'       => $this->useful_mix,
 			'custom_mix'       => $this->custom_mix,

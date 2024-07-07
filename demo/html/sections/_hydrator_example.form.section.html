@@ -4,8 +4,8 @@
 		<p>Hydration happens when an array of data assigned into an object's public properties using the Struct's hydrate method or the constructor. This brings up the question, what if the data needs to be pre-processed before being assigned to the property? That is where the hydration attributes come in to play.</p>
 		<p>Hydration attributes run pre-processing on the value before it is assigned to the property. Either by transforming the value, cleaning it up, or running pre-validation checks.</p>
 		<p>Hydration attributes are processed in order from top to bottom.</p>
-		<p>Helpful Note: One of the more useful combinations is using <code>Trim</code> followed up by <code>UseDefaultOnEmpty</code>.</p>
-		<p>Important Note: Data is automatically converted between scalar types when possible. This can be turned off if needed. Please reference the docs for more info.</p>
+		<p><b>Helpful Note:</b> One of the more useful combinations is using <code>Trim</code> followed up by <code>UseDefaultOnEmpty</code> or <code>UseValueOnEmpty</code>.</p>
+		<p><b>Important Note:</b> Data is automatically converted between types when possible. This can not be turned off (blame PHP and its decision on how to handle strict_types), but enhanced conversions can be disabled. Please reference the docs for more info.</p>
 	</div>
 </div>
 <div class="pure-g">
@@ -103,6 +103,20 @@
 				<small>
 					#[UseDefaultOnEmpty]<br>
 					Default: 'test'
+				</small>
+			</span>
+		</div>
+
+		<div class="pure-control-group">
+			<label>
+				Use Value On Empty:<br>
+				<small>Readonly properties cannot have defaults, use this instead.</small>
+			</label>
+			<input type="text" class="form-control" name="value_on_empty" value="">
+			<span class="pure-form-message-inline">
+				<small>
+					readonly<br>
+					#[UseValueOnEmpty('test')]
 				</small>
 			</span>
 		</div>
