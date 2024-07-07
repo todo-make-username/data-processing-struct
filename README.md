@@ -261,12 +261,15 @@ There is an optional, but recommended, attribute for you to use to customize the
 
 #### Basic Usage:
 ```PHP
-$failure_messages = [];
-$Validator        = new ObjectValidator($Obj);
+// Object has to be a struc
+$Obj = new SomeStructObj($_POST);
 
-if (!$Validator->isValid())
+// Run validation attributes which returns a validation response object
+$ValidationResponse = $Obj->validate();
+
+if (!$ValidationResponse->success)
 {
-	$failure_messages = $Validator->getAllMessages();
+	$failure_messages = $ValidationResponse->getAllMessages();
 }
 
 print_r($failure_messages);
