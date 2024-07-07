@@ -327,17 +327,17 @@ http://localhost:8000/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Project Coding Standards
+* 100% Code Coverage via integration tests
+* PHP Stan Level 9
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- 
 ## Contributing
-This project will always strive to maintain **100% Code Coverage** via **integration tests** and **PHP Stan Level 9!**
-
 I gladly welcome feedback and suggestions via Github Issues. I thrive on constructive feedback.
 
 Bugs of course are submitted via Github Issues as well.
-
-#### Adding New Attributes
-When it comes to adding/requesting new attributes into this library, I ask myself the question:\
-`Would this be useful for everyone? Or just myself?`
 
 #### Code Styling Basics
 * Curly braces `{ }` start on new lines. It is cleaner to look at.
@@ -351,7 +351,7 @@ When it comes to adding/requesting new attributes into this library, I ask mysel
 * PHP Stan Level 9.
 * All tests should be integration tests. Aka, should run like you are actually using the library.
 * 100% Coverage is a hard requirement. Combined with the previous one, we can find unreachable code and remove it.
-* Method mocking should be a last resort.
+* Method mocking is a last resort.
 * You need a really good reason to use `@codeCoverageIgnore` or similar flags.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
