@@ -261,7 +261,7 @@ There is an optional, but recommended, attribute for you to use to customize the
 
 #### Basic Usage:
 ```PHP
-// Object has to be a struc
+// Object has to be a struct
 $Obj = new SomeStructObj($_POST);
 
 // Run validation attributes which returns a validation response object
