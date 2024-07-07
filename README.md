@@ -19,10 +19,10 @@
 
 ## Overview
 **Overview [short version]:**\
-You start with an array of data and class containing data processing property attributes. You end with a fully typed, processed, and validated object.
+You start with an array of data and class containing data processing property attributes. You end with a fully typed, processed, optionally immutable, validated object.
 
 **Overview [long version]:**\
-One main pain point for anyone working in PHP is processing and validating associative arrays that come from various sources ($_POST, PDO, json_decode, etc). Then we run into the repetitive task of having to revalidate that the data we want exists in the array and it is the correct type, every time we use that data in a new method (I mean, you don't have to, but it is safer that way). This can be nearly eliminated by passing around pre-processed data objects (like a struct in other languages) instead of arrays. This library is how we turn those arrays into objects while also processing and validating the data without all the boilerplate.
+One main pain point for anyone working in PHP is processing and validating associative arrays that come from various sources ($_POST, PDO, json_decode, etc). Then we run into the repetitive task of having to revalidate that the data we want exists in the array and it is the correct type, every time we use that data in a new method (I mean, you don't have to, but it is safer that way). This can be nearly eliminated by passing around pre-processed data objects (like a struct in other languages) instead of arrays. You can enhance this even further by making the objects immutable with readonly properties. This library is how we load those arrays into objects while also processing and validating the data without all the boilerplate.
 
 **There are three main actions this library was designed to help with:**\
 1. Hydration: Hydrate an object's public properties using an associative array of data.
@@ -30,12 +30,13 @@ One main pain point for anyone working in PHP is processing and validating assoc
  	* Things like automatically running `trim`, or `str_replace` on a handful of properties only requires you to add the corresponding attribute to the desired properties on the object. 
 	* For example, when the attribute `#[JsonDecode(true)]` is used on a property, it will expect a json string during hydration and then parses it. Then it uses that array in the next hydration attribute or saves it to the property.
 		* That can then be chained with a custom attribute to take the array data and hydrate a different data object to be saved to the property. With just those 2 attributes you removed a lot of processing from your main flow.
-1. Conversion: While hydrating an object, the values from the incoming data will be automatically converted to the property's type if it can.
+1. Conversion: While hydrating an object, the values from the incoming data will be automatically converted to the property's type if it can right before assignment.
 1. Validation: Validate an object's properties using validation attributes.
 	* For example, you can set up an attribute that checks if the value of a property matches a regex pattern, or that the value must pass an `!empty` check.
+ 	* You can also customize the failure messages for the individual validation attributes on each property.
 
 #### Common Use Cases:
-* Typing and validating form data.
+* Processing and validating form data.
 * Simple DB Mappers.
 * API responses.
 * Basically anything that has an array that would be better off as a typed object.
