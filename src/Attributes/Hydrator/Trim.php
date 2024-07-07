@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace TodoMakeUsername\DataProcessingStruct\Attributes\Tailor;
+namespace TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator;
 
 use Attribute;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Abstracts\AbstractTailorAttribute;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Abstracts\AbstractHydratorAttribute;
 
 /**
  * Calls the trim() function on the value.
@@ -11,7 +11,7 @@ use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Abstracts\AbstractTa
  * Can only be used on types that can be interpreted as a string. Others are ignored.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Trim extends AbstractTailorAttribute
+class Trim extends AbstractHydratorAttribute
 {
 	/**
 	 * Uses the same args as the normal trim method.

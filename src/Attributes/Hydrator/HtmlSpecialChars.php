@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace TodoMakeUsername\DataProcessingStruct\Attributes\Tailor;
+namespace TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator;
 
 use Attribute;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Abstracts\AbstractTailorAttribute;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Abstracts\AbstractHydratorAttribute;
 
 /**
  * Calls the htmlspecialchars() function on the value.
@@ -13,7 +13,7 @@ use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Abstracts\AbstractTa
  * Can only be used on strings. Others are ignored.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class HtmlSpecialChars extends AbstractTailorAttribute
+class HtmlSpecialChars extends AbstractHydratorAttribute
 {
 	/**
 	 * Convert special characters to HTML entities

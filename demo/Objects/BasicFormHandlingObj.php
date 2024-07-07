@@ -4,7 +4,7 @@ namespace TodoMakeUsername\DataProcessingStructDemo\Objects;
 
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\FileUpload;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Required;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Trim;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Trim;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\NotEmpty;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\RegexMatch;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Settings\ValidatorFailureMessage;
@@ -25,6 +25,8 @@ class BasicFormHandlingObj extends Struct implements ObjInterface
 	#[ValidatorFailureMessage(RegexMatch::class, 'Password must be "password"')]
 	public string $password = '';
 
+	#[Required]
+	#[NotEmpty]
 	public int $age;
 
 	public bool $enabled_daily_jokes = false;

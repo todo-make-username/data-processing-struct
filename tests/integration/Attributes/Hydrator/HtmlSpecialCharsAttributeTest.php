@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\HtmlSpecialChars;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\HtmlSpecialChars;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class HtmlSpecialCharsAttributeTest extends TestCase
@@ -11,13 +11,14 @@ class HtmlSpecialCharsAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[HtmlSpecialChars()]
-			public $field1 = '';
+			public $field1;
 		};
 
-		$js_string = '<script>alert("hax");</script>';
-		$Obj->field1    = $js_string;
+		$js_string   = '<script>alert("hax");</script>';
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => $js_string,
+		]);
 
 		$this->assertSame(htmlspecialchars($js_string), $Obj->field1);
 	}
@@ -27,13 +28,14 @@ class HtmlSpecialCharsAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[HtmlSpecialChars()]
-			public $field1 = '';
+			public $field1;
 		};
 
-		$int_val     = 123;
-		$Obj->field1 = $int_val;
+		$int_val = 123;
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => $int_val,
+		]);
 
 		$this->assertSame($int_val, $Obj->field1);
 	}

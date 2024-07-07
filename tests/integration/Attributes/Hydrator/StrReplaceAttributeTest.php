@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\StrReplace;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\StrReplace;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class StrReplaceAttributeTest extends TestCase
@@ -11,10 +11,12 @@ class StrReplaceAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[StrReplace('R1', 'Hello')]
-			public $field1 = 'R1 World!';
+			public $field1;
 		};
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => 'R1 World!',
+		]);
 
 		$this->assertSame('Hello World!', $Obj->field1);
 	}
@@ -24,10 +26,12 @@ class StrReplaceAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[StrReplace([ 'R1', 'R2', '?' ], [ 'Hello', 'World', '!'])]
-			public $field1 = 'R1 R2?';
+			public $field1;
 		};
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => 'R1 R2?',
+		]);
 
 		$this->assertSame('Hello World!', $Obj->field1);
 	}
@@ -37,10 +41,12 @@ class StrReplaceAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[StrReplace('R1', 'Hello')]
-			public int $field1 = 123;
+			public int $field1;
 		};
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => 123,
+		]);
 
 		$this->assertSame(123, $Obj->field1);
 	}
@@ -50,7 +56,7 @@ class StrReplaceAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[StrReplace([ 'R1', 'R2', '?' ], [ 'Hello', 'World', '!'])]
-			public $field1 = ['R1 R2?', 'R1', 'R2', '?'];
+			public $field1;
 		};
 
 		$expected = [
@@ -60,7 +66,9 @@ class StrReplaceAttributeTest extends TestCase
 			'!',
 		];
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => ['R1 R2?', 'R1', 'R2', '?'],
+		]);
 
 		$this->assertSame($expected, $Obj->field1);
 	}

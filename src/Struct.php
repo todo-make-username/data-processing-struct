@@ -3,13 +3,11 @@
 namespace TodoMakeUsername\DataProcessingStruct;
 
 use TodoMakeUsername\DataProcessingStruct\Hydrator\Traits\HydratorTrait;
-use TodoMakeUsername\DataProcessingStruct\Tailor\Traits\TailorTrait;
 use TodoMakeUsername\DataProcessingStruct\Validator\Traits\ValidatorTrait;
 
 abstract class Struct
 {
 	use HydratorTrait;
-	use TailorTrait;
 	use ValidatorTrait;
 
 	/**

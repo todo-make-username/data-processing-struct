@@ -2,32 +2,29 @@
 
 use TodoMakeUsername\DataProcessingStructDemo\Util\ObjectFactory;
 
-$Obj            = ObjectFactory::create($_POST['section']);
-$NewObj         = null;
-$message        = 'Success!';
-$serialized_obj = [];
+$Obj             = ObjectFactory::create($_POST['section']);
+$display_message = 'Success!';
+$serialized_obj  = [];
 
 unset($_POST['section']);
 
 try {
 	$Obj->hydrate($_POST);
-	$Obj->tailor();
 	$Response = $Obj->validate();
 
 	if ($Response->success === false)
 	{
 		$failure_messages = $Response->getAllMessages();
-
-		$message = implode(PHP_EOL, $failure_messages);
+		$display_message  = implode(PHP_EOL, $failure_messages);
 	}
 
 	$serialized_obj = $Obj->toArray();
 } catch (\Throwable $e) {
-	$message = $e->getMessage();
+	$display_message = $e->getMessage();
 }
 
 $response = [
-	'message'    => $message,
+	'message'    => $display_message,
 	'post'       => $_POST,
 	'files'      => $_FILES,
 	'serialized' => $serialized_obj,

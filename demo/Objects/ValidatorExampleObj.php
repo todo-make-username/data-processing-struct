@@ -2,7 +2,7 @@
 
 namespace TodoMakeUsername\DataProcessingStructDemo\Objects;
 
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Trim;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Trim;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\NotEmpty;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\RegexMatch;
 use TodoMakeUsername\DataProcessingStruct\Attributes\Validator\Settings\ValidatorFailureMessage;

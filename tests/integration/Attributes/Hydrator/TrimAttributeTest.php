@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Trim;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Trim;
 use TodoMakeUsername\DataProcessingStruct\Struct;
 
 class TrimAttributeTest extends TestCase
@@ -11,10 +11,12 @@ class TrimAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[Trim]
-			public $field1 = '  abc ';
+			public $field1;
 		};
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => '  abc ',
+		]);
 
 		$this->assertSame('abc', $Obj->field1);
 	}
@@ -24,10 +26,12 @@ class TrimAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[Trim]
-			public int $field1 = 123;
+			public int $field1;
 		};
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => 123,
+		]);
 
 		$this->assertSame(123, $Obj->field1);
 	}
@@ -37,10 +41,12 @@ class TrimAttributeTest extends TestCase
 		$Obj = new class() extends Struct
 		{
 			#[Trim('!')]
-			public string $field1 = '!Hello World!!';
+			public string $field1;
 		};
 
-		$Obj->tailor();
+		$Obj->hydrate([
+			'field1' => '!Hello World!!',
+		]);
 
 		$this->assertSame('Hello World', $Obj->field1);
 	}

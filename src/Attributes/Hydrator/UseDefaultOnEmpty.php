@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace TodoMakeUsername\DataProcessingStruct\Attributes\Tailor;
+namespace TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator;
 
 use Attribute;
-use TodoMakeUsername\DataProcessingStruct\Attributes\Tailor\Abstracts\AbstractTailorAttribute;
-use TodoMakeUsername\DataProcessingStruct\Tailor\Exceptions\TailorException;
+use TodoMakeUsername\DataProcessingStruct\Attributes\Hydrator\Abstracts\AbstractHydratorAttribute;
+use TodoMakeUsername\DataProcessingStruct\Hydrator\Exceptions\HydrationException;
 
 /**
  * Sets the value to the default value of the property if it passes an empty() check.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class UseDefaultOnEmpty extends AbstractTailorAttribute
+class UseDefaultOnEmpty extends AbstractHydratorAttribute
 {
 	/**
 	 * {@inheritDoc}
@@ -22,7 +22,7 @@ class UseDefaultOnEmpty extends AbstractTailorAttribute
 
 		if ($has_default === false)
 		{
-			throw new TailorException('The property: "'.$property_name.'" must have a default value for the DefaultOnEmpty attribute.');
+			throw new HydrationException('The property: "'.$property_name.'" must have a default value for the DefaultOnEmpty attribute.');
 		}
 
 		if (empty($value) === true)
