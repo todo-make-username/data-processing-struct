@@ -240,8 +240,11 @@ This is a special attribute that can be applied to the whole class, or individua
 * `#[Trim]` - That's what we all want this library for, now you got it. With the Trim attribute, any data in that property is trimmed.
 	* **Property Data Type Restriction:** String only.
 	* **Optional Parameter:** `characters: string` - The characters are the same param that is passed to PHP's `trim` function.
-* `#[UseDefaultOnEmpty]` - Basically exactly what it says. When the current assigned value passes an `empty` check, reflection looks at the property's default value, and then uses that instead.
+* `#[UseDefaultOnEmpty]` - When the current value passes an `empty` check, reflection looks at the property's default value, and then uses that instead.
 	* Pro Tip: Combine with `#[Trim]` to clean up blank form fields with a single space in them.
+ 	* Do not use on readonly properties since they cannot have defaults. Use `UseValueOnEmpty` instead.
+* `#[UseValueOnEmpty(value: mixed)]` - When the current value passes an `empty` check, it will use the provided value instead.
+	* Pro Tip: Similar with `UseDefaultOnEmpty`, combine with `#[Trim]` to clean up blank form fields with accidental spaces.
 
 #### Hydration Attribute Properties
 These are set when a Hydration Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractHydratorAttribute` class.
