@@ -19,23 +19,20 @@
 
 ## Overview
 **Overview [short version]:**\
-You start with a base class containing data processing property attributes. You end with a fully typed, processed, and validated object from an array of data.
+You start with an array of data and class containing data processing property attributes. You end with a fully typed, processed, and validated object.
 
 **Overview [long version]:**\
 One main pain point for anyone working in PHP is processing and validating associative arrays that come from various sources ($_POST, PDO, json_decode, etc). Then we run into the repetitive task of having to revalidate that the data we want exists in the array and it is the correct type, every time we use that data in a new method (I mean, you don't have to, but it is safer that way). This can be nearly eliminated by passing around pre-processed data objects (like a struct in other languages) instead of arrays. This library is how we turn those arrays into objects while also processing and validating the data without all the boilerplate.
 
-**There are 4 main actions this library was designed to help with:**\
-1. Hydrate an object's public properties using an associative array of data.
-	* Hydration attributes can act as chainable setter methods that can use the incoming data to assign the object's property something different.
+**There are three main actions this library was designed to help with:**\
+1. Hydration: Hydrate an object's public properties using an associative array of data.
+	* Hydration attributes clean the incoming data, as can act as chainable setter methods that can use the incoming data to assign the object's property something different.
+ 	* Things like automatically running `trim`, or `str_replace` on a handful of properties only requires you to add the corresponding attribute to the desired properties on the object. 
 	* For example, when the attribute `#[JsonDecode(true)]` is used on a property, it will expect a json string during hydration and then parses it. Then it uses that array in the next hydration attribute or saves it to the property.
 		* That can then be chained with a custom attribute to take the array data and hydrate a different data object to be saved to the property. With just those 2 attributes you removed a lot of processing from your main flow.
-1. While hydrating an object, the values from the array will be automatically converted to the property's type if it can.
+1. Conversion: While hydrating an object, the values from the incoming data will be automatically converted to the property's type if it can.
 	* This can be turned off if desired.
-1. Clean up an object's values using altering attributes.
-	* Things like automatically running `trim`, or `str_replace` on a handful of properties only requires you to add the corresponding attribute to the desired properties on the object.
-	* These attributes are called `tailor attributes` in this library. Because a tailor 'alters' clothing.\
-	 _(I really just couldn't think of a better name, I'm open to suggestions)_
-1. Validate an object's properties using validation attributes.
+1. Validation: Validate an object's properties using validation attributes.
 	* For example, you can set up an attribute that checks if the value of a property matches a regex pattern, or that the value must pass an `!empty` check.
 
 #### Common Use Cases:
@@ -44,7 +41,7 @@ One main pain point for anyone working in PHP is processing and validating assoc
 * API responses.
 * Basically anything that has an array that would be better off as a typed object.
 
-Did I mention that this library is fully extendable? You don't need to use any of my pre-made attributes. You can easily add your own hydration/tailor/validation attributes. As long as they extend my base attribute classes, the helpers will automatically pick up on them.
+Did I mention that this library is fully extendable? You don't need to use any of my pre-made attributes. You can easily add your own hydration/validation attributes. As long as they extend my base attribute classes, the helpers will automatically pick up on them.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -91,7 +88,7 @@ Here is a quick and dirty example of how it can be used on $_POST data after a f
  */
 class ReviewFormData extends Struct
 {
-	#[Trim]     // Tailor Attribute
+	#[Trim]     // Hydrator Attribute
 	#[NotEmpty] // Validation Attribute
 	public string $name;
 
@@ -100,9 +97,9 @@ class ReviewFormData extends Struct
 
 	public int $star_rating;
 
-	#[StrReplace('*cat sitting on spacebar*', '')] // Tailor Attribute
-	#[Trim]                                        // Tailor Attribute
-	#[UseDefaultOnEmpty]                           // Tailor Attribute
+	#[StrReplace('*cat sitting on spacebar*', '')] // Hydrator Attribute
+	#[Trim]                                        // Hydrator Attribute
+	#[UseDefaultOnEmpty]                           // Hydrator Attribute
 	public ?string $review_text = null;
 
 	// FileUpload is a hydration attribute that pulls the data automatically from the $_FILES array.
@@ -132,14 +129,11 @@ $_FILES = [
 // Now somewhere else in the codebase where the form data is processed.
 $FormObject = new ReviewFormData();
 
-// The object's properties were set using the from $_POST and $_FILES. 
-// The values were also converted to the proper types. 
+// The data from $_POST and $_FILES are pre-processed, typed, then set to the object's respective properties.
 $FormObject->hydrate($_POST);
 
-// StrReplace ran on the review_text property.
-// Trim trimmed the designated properties.
-// UseDefaultOnEmpty didn't do anything since that field had a value.
-$FormObject->tailor();
+// Hydration can also be done by passing the array into the Struct constructor.
+$FormObject = new ReviewFormData($_POST);
 
 // Validation is run. Any failure messages can be retrieved with getMessages.
 $Response         = $FormObject->validate();
@@ -161,7 +155,7 @@ $FormObject->review_image_uploads => [ [ `File 1 Data` ], [ `File 2 Data` ] ]
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Documentation
-This library is fairly simple, it contains a base Struct class with three traits that incorporates hydration, tailoring, and validation. It also contains some pre-made attributes for you to use that take care of some of the more common things. I've also built a demo for you to use and play with. How to run the demo is at the bottom of this readme.
+This library is fairly simple, it contains a base Struct class with two traits that incorporates hydration and validation. It also contains some pre-made attributes for you to use that take care of some of the more common things. I've also built a demo for you to use and play with. How to run the demo is at the bottom of this readme.
 
 #### Useful Info:
 * Attributes are run in order from top to bottom.
@@ -172,7 +166,7 @@ This library is fairly simple, it contains a base Struct class with three traits
 * When using this library to handle form submissions, it is highly recommended to have default values for any property that has form data that may not be sent over. Like checkboxes. Otherwise PHP might start yelling at you about accessing uninitialized properties.
 * Hydrating properties which can be converted from a string can be hydrated with an object as long as the `__toString()` magic method is set up.
 * Fun Fact: I use the demo as a testing ground for changes.
-* Sad Fact: This library cannot work with readonly properties as those can only be set from within the object itself and cannot be changed once set.
+* Sad Fact: This library cannot work with readonly properties (for now) as those can only be set from within the object itself and cannot be changed once set.
 
 Now, on to the actual docs...
 
@@ -181,10 +175,14 @@ Now, on to the actual docs...
 ### The Hydrator
 This method takes an assoc array of data and hydrates the object's public properties while also converting the data to the proper types (when it can). The property name must match an array key in the incoming array.
 
-Hydration attributes are pre-hooks into the assigning of the properties. They use the incoming value to transform it into something different than assigning it directly. They can also be used as pre-validation. As a bonus, fully chainable.
+Hydration attributes are pre-hooks into the assigning of the properties. They use the incoming value to transform it into something different before assigning it. They can also be used as a way to clean the data, and run pre-validation. As a bonus, fully chainable.
 
 #### Basic Usage:
 ```PHP
+// via the constructor:
+$SomeStructObj = new SomeStructObj($_POST);
+
+// via hydrate method:
 $SomeStructObj->hydrate($_POST);
 ```
 
@@ -197,7 +195,7 @@ When hydrating an object, the data that is passed in is not always the type you 
 * For simplicity, conversions are skipped if the data type of the property is some sort of object. That opens too many cans of worms to deal with. You'll need to make your own custom Hydration attribute if you want to populate object properties.
 
 #### Attributes
-These hook into the assignment process and use the incoming value to perform an action. This is so you can accept one value and assign a different one. This has some extreme potential because of that. For example, you can easily set up a custom attribute to take an ID, run a query or use a mapper, populate a different object, then assign that to the property instead of that simple ID.
+These hook into the assignment process and will run pre-processing on the incoming value before assigning it. This is so you can take one value and assign a different one. This has some extreme potential because of that. For example, you can easily set up a custom attribute to take an ID, run a query or use a mapper, populate a different object, then assign that to the property instead of that simple ID.
 
 Hydration attributes can also be used as a way to pre-validate the incoming data, or lack thereof, like the `Required` attribute.
 
@@ -222,26 +220,6 @@ This is a special attribute that can be applied to the whole class, or individua
 * `#[TypedArray]` - Convert all values in the incoming array to a specific scalar type [ bool, int, float, string ].
 	* **Parameter:** `type: string` - This is the type you wish to convert the array values to.
 	* **Property Data Type Restriction:** Array compatible fields only.
-
-#### Hydration Attribute Properties
-These are set when a Hydration Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractHydratorAttribute` class.
-
-* `public ReflectionProperty $Property;` - The ReflectionProperty object to look up information about the property.
-* `public bool $value_exists = false;` - This is true if a key matching the property's name is in the incoming array.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### The Tailor
-This method tailors (aka alters. Ya know, like a tailor does to clothes) the data in an object's public properties using various tailor attributes.
-
-#### Basic Usage:
-```PHP
-$SomeStructObj->tailor();
-```
-
-#### Tailor Attributes
-When placed on an object's property, they will alter the value currently in it.
-
 * `#[HtmlSpecialChars(flags: int, encoding: string|null, double_encode: bool)]` - This behaves exactly like PHP's `htmlspecialchars` and takes the same parameters.
 	* **Property Data Type Restriction:** String only.
 * `#[StrReplace(search: string|array, replace: string|array)]` - This behaves exactly like PHP's `str_replace`.
@@ -252,12 +230,11 @@ When placed on an object's property, they will alter the value currently in it.
 * `#[UseDefaultOnEmpty]` - Basically exactly what it says. When the current assigned value passes an `empty` check, reflection looks at the property's default value, and then uses that instead.
 	* Pro Tip: Combine with `#[Trim]` to clean up blank form fields with a single space in them.
 
-#### Tailor Attribute Properties
-These are set when a Tailor Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractTailorAttribute` class.
+#### Hydration Attribute Properties
+These are set when a Hydration Attribute class is initialized. They can be used in your own attributes if your attribute extends the `AbstractHydratorAttribute` class.
 
 * `public ReflectionProperty $Property;` - The ReflectionProperty object to look up information about the property.
-* `public bool $is_initialized;` - Basically what it says. Tells you if the property has been initialized with a value or not.
-	* **IMPORTANT:** This will ALWAYS be true for non-typed properties (aka Duck Typed), even with no default value. Blame PHP's `ReflectionProperty`, not me.
+* `public bool $value_exists = false;` - This is true if a key matching the property's name is in the incoming array.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
