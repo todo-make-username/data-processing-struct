@@ -219,6 +219,9 @@ This is a special attribute that can be applied to the whole class, or individua
 		* The enhanced conversion is more flexible with the incoming values. For example, it converts boolean strings like 'on'/'off', objects with `__toString()` can be converted to string, and array typed properties will convert empty values to an empty array.
 
 **Hydration Attributes**
+* `#[ConvertTo(type: string)]` - Prematurely convert the value to the designated type.
+	* **Parameter:** `type: string` - This is the scalar type you wish to convert the value to.
+	* **Special Note:** This method is normally not needed as the value is automatically converted at the end of the hydration if the property is typed. This should be used when a hydration attribute in the chain requires the value to be a specific type, or if no data type is declared on the property.
 * `#[FileUpload]` - Specify if a property was an upload(s) and automatically pull the data from $_FILES.
 	* **Optional Parameter:** `transpose: bool` [default: true] - This will format PHP's awkwardly organized multi-uploads array into an array for each uploaded file as an element with the format of a single upload.\
 	<code>[ [file1 data], [file2 data] ]</code>
